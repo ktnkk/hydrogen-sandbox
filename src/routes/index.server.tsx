@@ -1,4 +1,4 @@
-import {Suspense} from 'react';
+import { Suspense } from 'react';
 import {
   CacheLong,
   gql,
@@ -9,10 +9,10 @@ import {
   useShopQuery,
 } from '@shopify/hydrogen';
 
-import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/lib/fragments';
-import {getHeroPlaceholder} from '~/lib/placeholders';
-import {FeaturedCollections, Hero} from '~/components';
-import {Layout, ProductSwimlane} from '~/components/index.server';
+import { MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT } from '~/lib/fragments';
+import { getHeroPlaceholder } from '~/lib/placeholders';
+import { FeaturedCollections, Hero } from '~/components';
+import { Layout, ProductSwimlane } from '~/components/index.server';
 import {
   CollectionConnection,
   ProductConnection,
@@ -39,11 +39,11 @@ export default function Homepage() {
 
 function HomepageContent() {
   const {
-    language: {isoCode: languageCode},
-    country: {isoCode: countryCode},
+    language: { isoCode: languageCode },
+    country: { isoCode: countryCode },
   } = useLocalization();
 
-  const {data} = useShopQuery<{
+  const { data } = useShopQuery<{
     heroBanners: CollectionConnection;
     featuredCollections: CollectionConnection;
     featuredProducts: ProductConnection;
@@ -56,7 +56,7 @@ function HomepageContent() {
     preload: true,
   });
 
-  const {heroBanners, featuredCollections, featuredProducts} = data;
+  const { heroBanners, featuredCollections, featuredProducts } = data;
 
   // fill in the hero banners with placeholders if they're missing
   const [primaryHero, secondaryHero, tertiaryHero] = getHeroPlaceholder(
@@ -66,17 +66,17 @@ function HomepageContent() {
   return (
     <>
       {primaryHero && (
-        <Hero {...primaryHero} height="full" top loading="eager" />
+        <Hero {...primaryHero} height='full' top loading='eager' />
       )}
       <ProductSwimlane
         data={featuredProducts.nodes}
-        title="Featured Products"
-        divider="bottom"
+        title='Featured Products'
+        divider='bottom'
       />
       {secondaryHero && <Hero {...secondaryHero} />}
       <FeaturedCollections
         data={featuredCollections.nodes}
-        title="Collections"
+        title='Collections'
       />
       {tertiaryHero && <Hero {...tertiaryHero} />}
     </>
@@ -86,7 +86,7 @@ function HomepageContent() {
 function SeoForHomepage() {
   const {
     data: {
-      shop: {title, description},
+      shop: { title, description },
     },
   } = useShopQuery({
     query: HOMEPAGE_SEO_QUERY,
@@ -96,7 +96,7 @@ function SeoForHomepage() {
 
   return (
     <Seo
-      type="homepage"
+      type='homepage'
       data={{
         title,
         description,

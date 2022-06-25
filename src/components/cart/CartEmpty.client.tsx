@@ -1,9 +1,9 @@
-import {useRef} from 'react';
-import {useScroll} from 'react-use';
-import {fetchSync} from '@shopify/hydrogen';
-import {Button, Text, ProductCard, Heading, Skeleton} from '~/components';
-import type {Product} from '@shopify/hydrogen/storefront-api-types';
-import {Suspense} from 'react';
+import { useRef } from 'react';
+import { useScroll } from 'react-use';
+import { fetchSync } from '@shopify/hydrogen';
+import { Button, Text, ProductCard, Heading, Skeleton } from '~/components';
+import type { Product } from '@shopify/hydrogen/storefront-api-types';
+import { Suspense } from 'react';
 
 export function CartEmpty({
   onClose,
@@ -13,7 +13,7 @@ export function CartEmpty({
   layout?: 'page' | 'drawer';
 }) {
   const scrollRef = useRef(null);
-  const {y} = useScroll(scrollRef);
+  const { y } = useScroll(scrollRef);
 
   const container = {
     drawer: `grid content-start gap-4 px-6 pb-8 transition overflow-y-scroll md:gap-12 md:px-12 h-screen-no-nav md:pb-12 ${
@@ -29,7 +29,7 @@ export function CartEmpty({
 
   return (
     <div ref={scrollRef} className={container[layout]}>
-      <section className="grid gap-6">
+      <section className='grid gap-6'>
         <Text format>
           Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
           started!
@@ -38,8 +38,8 @@ export function CartEmpty({
           <Button onClick={onClose}>Continue shopping</Button>
         </div>
       </section>
-      <section className="grid gap-8 pt-4">
-        <Heading format size="copy">
+      <section className='grid gap-8 pt-4'>
+        <Heading format size='copy'>
           Shop Best Sellers
         </Heading>
         <div
@@ -54,7 +54,7 @@ export function CartEmpty({
   );
 }
 
-function TopProducts({onClose}: {onClose?: () => void}) {
+function TopProducts({ onClose }: { onClose?: () => void }) {
   const products: Product[] = fetchSync('/api/bestSellers').json();
 
   if (products.length === 0) {
@@ -75,9 +75,9 @@ function Loading() {
     <>
       {[...new Array(4)].map((_, i) => (
         // eslint-disable-next-line react/no-array-index-key
-        <div key={i} className="grid gap-2">
-          <Skeleton className="aspect-[3/4]" />
-          <Skeleton className="w-32 h-4" />
+        <div key={i} className='grid gap-2'>
+          <Skeleton className='aspect-[3/4]' />
+          <Skeleton className='w-32 h-4' />
         </div>
       ))}
     </>

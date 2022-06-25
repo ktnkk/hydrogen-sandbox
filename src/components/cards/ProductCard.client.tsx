@@ -7,9 +7,9 @@ import {
   useMoney,
 } from '@shopify/hydrogen';
 
-import {Text} from '~/components';
-import {isDiscounted, isNewArrival} from '~/lib/utils';
-import {getProductPlaceholder} from '~/lib/placeholders';
+import { Text } from '~/components';
+import { isDiscounted, isNewArrival } from '~/lib/utils';
+import { getProductPlaceholder } from '~/lib/placeholders';
 import type {
   MoneyV2,
   Product,
@@ -55,19 +55,19 @@ export function ProductCard({
   return (
     <Link onClick={onClick} to={`/products/${product.handle}`}>
       <div className={styles}>
-        <div className="card-image aspect-[4/5] bg-primary/5">
+        <div className='card-image aspect-[4/5] bg-primary/5'>
           <Text
-            as="label"
-            size="fine"
-            className="absolute top-0 right-0 m-4 text-right text-notice"
+            as='label'
+            size='fine'
+            className='absolute top-0 right-0 m-4 text-right text-notice'
           >
             {cardLabel}
           </Text>
           {image && (
             <Image
-              className="aspect-[4/5] w-full object-cover fadeIn"
+              className='aspect-[4/5] w-full object-cover fadeIn'
               widths={[320]}
-              sizes="320px"
+              sizes='320px'
               loaderOptions={{
                 crop: 'center',
                 scale: 2,
@@ -81,15 +81,15 @@ export function ProductCard({
             />
           )}
         </div>
-        <div className="grid gap-1">
+        <div className='grid gap-1'>
           <Text
-            className="w-full overflow-hidden whitespace-nowrap text-ellipsis "
-            as="h3"
+            className='w-full overflow-hidden whitespace-nowrap text-ellipsis '
+            as='h3'
           >
             {product.title}
           </Text>
-          <div className="flex gap-4">
-            <Text className="flex gap-4">
+          <div className='flex gap-4'>
+            <Text className='flex gap-4'>
               <Money withoutTrailingZeros data={price!} />
               {isDiscounted(price as MoneyV2, compareAtPrice as MoneyV2) && (
                 <CompareAtPrice
@@ -112,7 +112,7 @@ function CompareAtPrice({
   data: MoneyV2;
   className?: string;
 }) {
-  const {currencyNarrowSymbol, withoutTrailingZerosAndCurrency} =
+  const { currencyNarrowSymbol, withoutTrailingZerosAndCurrency } =
     useMoney(data);
 
   const styles = clsx('strike', className);

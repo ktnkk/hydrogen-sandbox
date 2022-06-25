@@ -1,7 +1,7 @@
-import {Suspense, useMemo} from 'react';
-import {gql, useShopQuery, useLocalization} from '@shopify/hydrogen';
-import {PRODUCT_CARD_FRAGMENT} from '~/lib/fragments';
-import {ProductCard, Section} from '~/components';
+import { Suspense, useMemo } from 'react';
+import { gql, useShopQuery, useLocalization } from '@shopify/hydrogen';
+import { PRODUCT_CARD_FRAGMENT } from '~/lib/fragments';
+import { ProductCard, Section } from '~/components';
 import type {
   Product,
   ProductConnection,
@@ -36,15 +36,15 @@ export function ProductSwimlane({
   }, [count, data]);
 
   return (
-    <Section heading={title} padding="y" {...props}>
-      <div className="swimlane hiddenScroll md:pb-8 md:scroll-px-8 lg:scroll-px-12 md:px-8 lg:px-12">
+    <Section heading={title} padding='y' {...props}>
+      <div className='swimlane hiddenScroll md:pb-8 md:scroll-px-8 lg:scroll-px-12 md:px-8 lg:px-12'>
         {productCardsMarkup}
       </div>
     </Section>
   );
 }
 
-function ProductCards({products}: {products: Product[]}) {
+function ProductCards({ products }: { products: Product[] }) {
   return (
     <>
       {products.map((product) => (
@@ -66,11 +66,11 @@ function RecommendedProducts({
   count: number;
 }) {
   const {
-    language: {isoCode: languageCode},
-    country: {isoCode: countryCode},
+    language: { isoCode: languageCode },
+    country: { isoCode: countryCode },
   } = useLocalization();
 
-  const {data: products} = useShopQuery<{
+  const { data: products } = useShopQuery<{
     recommended: Product[];
     additional: ProductConnection;
   }>({
@@ -99,9 +99,9 @@ function RecommendedProducts({
   return <ProductCards products={mergedProducts} />;
 }
 
-function TopProducts({count}: {count: number}) {
+function TopProducts({ count }: { count: number }) {
   const {
-    data: {products},
+    data: { products },
   } = useShopQuery({
     query: TOP_PRODUCTS_QUERY,
     variables: {

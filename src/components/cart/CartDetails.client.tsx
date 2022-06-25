@@ -1,5 +1,5 @@
-import {useRef} from 'react';
-import {useScroll} from 'react-use';
+import { useRef } from 'react';
+import { useScroll } from 'react-use';
 import {
   useCart,
   CartLineProvider,
@@ -7,7 +7,7 @@ import {
   Money,
 } from '@shopify/hydrogen';
 
-import {Button, Text, CartLineItem, CartEmpty} from '~/components';
+import { Button, Text, CartLineItem, CartEmpty } from '~/components';
 
 export function CartDetails({
   layout,
@@ -16,9 +16,9 @@ export function CartDetails({
   layout: 'drawer' | 'page';
   onClose?: () => void;
 }) {
-  const {lines} = useCart();
+  const { lines } = useCart();
   const scrollRef = useRef(null);
-  const {y} = useScroll(scrollRef);
+  const { y } = useScroll(scrollRef);
 
   if (lines.length === 0) {
     return <CartEmpty onClose={onClose} layout={layout} />;
@@ -43,10 +43,10 @@ export function CartDetails({
     <form className={container[layout]}>
       <section
         ref={scrollRef}
-        aria-labelledby="cart-contents"
+        aria-labelledby='cart-contents'
         className={`${content[layout]} ${y > 0 ? 'border-t' : ''}`}
       >
-        <ul className="grid gap-6 md:gap-10">
+        <ul className='grid gap-6 md:gap-10'>
           {lines.map((line) => {
             return (
               <CartLineProvider key={line.id} line={line}>
@@ -56,8 +56,8 @@ export function CartDetails({
           })}
         </ul>
       </section>
-      <section aria-labelledby="summary-heading" className={summary[layout]}>
-        <h2 id="summary-heading" className="sr-only">
+      <section aria-labelledby='summary-heading' className={summary[layout]}>
+        <h2 id='summary-heading' className='sr-only'>
           Order summary
         </h2>
         <OrderSummary />
@@ -68,10 +68,10 @@ export function CartDetails({
 }
 
 function CartCheckoutActions() {
-  const {checkoutUrl} = useCart();
+  const { checkoutUrl } = useCart();
   return (
     <>
-      <div className="grid gap-4">
+      <div className='grid gap-4'>
         <Button to={checkoutUrl}>Continue to Checkout</Button>
         <CartShopPayButton />
       </div>
@@ -80,13 +80,13 @@ function CartCheckoutActions() {
 }
 
 function OrderSummary() {
-  const {cost} = useCart();
+  const { cost } = useCart();
   return (
     <>
-      <dl className="grid">
-        <div className="flex items-center justify-between font-medium">
-          <Text as="dt">Subtotal</Text>
-          <Text as="dd">
+      <dl className='grid'>
+        <div className='flex items-center justify-between font-medium'>
+          <Text as='dt'>Subtotal</Text>
+          <Text as='dd'>
             {cost?.subtotalAmount?.amount ? (
               <Money data={cost?.subtotalAmount} />
             ) : (

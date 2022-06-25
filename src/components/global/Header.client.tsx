@@ -1,5 +1,5 @@
-import {Link, useUrl, useCart} from '@shopify/hydrogen';
-import {useWindowScroll} from 'react-use';
+import { Link, useUrl, useCart } from '@shopify/hydrogen';
+import { useWindowScroll } from 'react-use';
 
 import {
   Heading,
@@ -10,17 +10,23 @@ import {
   Input,
 } from '~/components';
 
-import {CartDrawer} from './CartDrawer.client';
-import {MenuDrawer} from './MenuDrawer.client';
-import {useDrawer} from './Drawer.client';
+import { CartDrawer } from './CartDrawer.client';
+import { MenuDrawer } from './MenuDrawer.client';
+import { useDrawer } from './Drawer.client';
 
-import type {EnhancedMenu} from '~/lib/utils';
+import type { EnhancedMenu } from '~/lib/utils';
 
 /**
  * A client component that specifies the content of the header on the website
  */
-export function Header({title, menu}: {title: string; menu?: EnhancedMenu}) {
-  const {pathname} = useUrl();
+export function Header({
+  title,
+  menu,
+}: {
+  title: string;
+  menu?: EnhancedMenu;
+}) {
+  const { pathname } = useUrl();
 
   const localeMatch = /^\/([a-z]{2})(\/|$)/i.exec(pathname);
   const countryCode = localeMatch ? localeMatch[1] : undefined;
@@ -74,7 +80,7 @@ function MobileHeader({
   openCart: () => void;
   openMenu: () => void;
 }) {
-  const {y} = useWindowScroll();
+  const { y } = useWindowScroll();
 
   const styles = {
     button: 'relative flex items-center justify-center w-8 h-8',
@@ -88,16 +94,16 @@ function MobileHeader({
   };
 
   return (
-    <header role="banner" className={styles.container}>
-      <div className="flex items-center justify-start w-full gap-4">
+    <header role='banner' className={styles.container}>
+      <div className='flex items-center justify-start w-full gap-4'>
         <button onClick={openMenu} className={styles.button}>
           <IconMenu />
         </button>
         <form
           action={`/${countryCode ? countryCode + '/' : ''}search`}
-          className="items-center gap-2 sm:flex"
+          className='items-center gap-2 sm:flex'
         >
-          <button type="submit" className={styles.button}>
+          <button type='submit' className={styles.button}>
             <IconSearch />
           </button>
           <Input
@@ -106,24 +112,24 @@ function MobileHeader({
                 ? 'focus:border-contrast/20 dark:focus:border-primary/20'
                 : 'focus:border-primary/20'
             }
-            type="search"
-            variant="minisearch"
-            placeholder="Search"
-            name="q"
+            type='search'
+            variant='minisearch'
+            placeholder='Search'
+            name='q'
           />
         </form>
       </div>
 
       <Link
-        className="flex items-center self-stretch leading-[3rem] md:leading-[4rem] justify-center flex-grow w-full h-full"
-        to="/"
+        className='flex items-center self-stretch leading-[3rem] md:leading-[4rem] justify-center flex-grow w-full h-full'
+        to='/'
       >
-        <Heading className="font-bold text-center" as={isHome ? 'h1' : 'h2'}>
+        <Heading className='font-bold text-center' as={isHome ? 'h1' : 'h2'}>
           {title}
         </Heading>
       </Link>
 
-      <div className="flex items-center justify-end w-full gap-4">
+      <div className='flex items-center justify-end w-full gap-4'>
         <Link to={'/account'} className={styles.button}>
           <IconAccount />
         </Link>
@@ -149,7 +155,7 @@ function DesktopHeader({
   menu?: EnhancedMenu;
   title: string;
 }) {
-  const {y} = useWindowScroll();
+  const { y } = useWindowScroll();
 
   const styles = {
     button:
@@ -164,12 +170,12 @@ function DesktopHeader({
   };
 
   return (
-    <header role="banner" className={styles.container}>
-      <div className="flex gap-12">
-        <Link className={`font-bold`} to="/">
+    <header role='banner' className={styles.container}>
+      <div className='flex gap-12'>
+        <Link className={`font-bold`} to='/'>
           {title}
         </Link>
-        <nav className="flex gap-8">
+        <nav className='flex gap-8'>
           {/* Top level menu items */}
           {(menu?.items || []).map((item) => (
             <Link key={item.id} to={item.to} target={item.target}>
@@ -178,10 +184,10 @@ function DesktopHeader({
           ))}
         </nav>
       </div>
-      <div className="flex items-center gap-1">
+      <div className='flex items-center gap-1'>
         <form
           action={`/${countryCode ? countryCode + '/' : ''}search`}
-          className="flex items-center gap-2"
+          className='flex items-center gap-2'
         >
           <Input
             className={
@@ -189,12 +195,12 @@ function DesktopHeader({
                 ? 'focus:border-contrast/20 dark:focus:border-primary/20'
                 : 'focus:border-primary/20'
             }
-            type="search"
-            variant="minisearch"
-            placeholder="Search"
-            name="q"
+            type='search'
+            variant='minisearch'
+            placeholder='Search'
+            name='q'
           />
-          <button type="submit" className={styles.button}>
+          <button type='submit' className={styles.button}>
             <IconSearch />
           </button>
         </form>
@@ -210,8 +216,8 @@ function DesktopHeader({
   );
 }
 
-function CartBadge({dark}: {dark: boolean}) {
-  const {totalQuantity} = useCart();
+function CartBadge({ dark }: { dark: boolean }) {
+  const { totalQuantity } = useCart();
 
   if (totalQuantity < 1) {
     return null;

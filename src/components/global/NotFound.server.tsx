@@ -5,10 +5,10 @@ import {
   useShopQuery,
 } from '@shopify/hydrogen';
 
-import {Suspense} from 'react';
-import {PRODUCT_CARD_FRAGMENT} from '~/lib/fragments';
-import {Button, FeaturedCollections, PageHeader, Text} from '~/components';
-import {ProductSwimlane, Layout} from '~/components/index.server';
+import { Suspense } from 'react';
+import { PRODUCT_CARD_FRAGMENT } from '~/lib/fragments';
+import { Button, FeaturedCollections, PageHeader, Text } from '~/components';
+import { ProductSwimlane, Layout } from '~/components/index.server';
 import type {
   CollectionConnection,
   ProductConnection,
@@ -32,10 +32,10 @@ export function NotFound({
   return (
     <Layout>
       <PageHeader heading={heading}>
-        <Text width="narrow" as="p">
+        <Text width='narrow' as='p'>
           {description}
         </Text>
-        <Button width="auto" variant="secondary" to={'/'}>
+        <Button width='auto' variant='secondary' to={'/'}>
           Take me to the home page
         </Button>
       </PageHeader>
@@ -48,11 +48,11 @@ export function NotFound({
 
 function FeaturedSection() {
   const {
-    language: {isoCode: languageCode},
-    country: {isoCode: countryCode},
+    language: { isoCode: languageCode },
+    country: { isoCode: countryCode },
   } = useLocalization();
 
-  const {data} = useShopQuery<{
+  const { data } = useShopQuery<{
     featuredCollections: CollectionConnection;
     featuredProducts: ProductConnection;
   }>({
@@ -64,13 +64,13 @@ function FeaturedSection() {
     preload: true,
   });
 
-  const {featuredCollections, featuredProducts} = data;
+  const { featuredCollections, featuredProducts } = data;
 
   return (
     <>
       {featuredCollections.nodes.length < 2 && (
         <FeaturedCollections
-          title="Popular Collections"
+          title='Popular Collections'
           data={featuredCollections.nodes}
         />
       )}

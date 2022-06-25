@@ -4,7 +4,7 @@ import {
   type HydrogenApiRouteOptions,
   type HydrogenRequest,
 } from '@shopify/hydrogen';
-import {getApiErrorMessage} from '~/lib/utils';
+import { getApiErrorMessage } from '~/lib/utils';
 
 /**
  * This API route is used by the form on `/account/reset/[id]/[resetToken]`
@@ -12,7 +12,7 @@ import {getApiErrorMessage} from '~/lib/utils';
  */
 export async function api(
   request: HydrogenRequest,
-  {session, queryShop}: HydrogenApiRouteOptions,
+  { session, queryShop }: HydrogenApiRouteOptions,
 ) {
   if (!session) {
     return new Response('Session storage not available.', {
@@ -31,14 +31,14 @@ export async function api(
     jsonBody.resetToken === ''
   ) {
     return new Response(
-      JSON.stringify({error: 'Incorrect password or reset token.'}),
+      JSON.stringify({ error: 'Incorrect password or reset token.' }),
       {
         status: 400,
       },
     );
   }
 
-  const {data, errors} = await queryShop<{customerReset: any}>({
+  const { data, errors } = await queryShop<{ customerReset: any }>({
     query: CUSTOMER_RESET_MUTATION,
     variables: {
       id: `gid://shopify/Customer/${jsonBody.id}`,
@@ -65,7 +65,7 @@ export async function api(
       JSON.stringify({
         error: getApiErrorMessage('customerReset', data, errors),
       }),
-      {status: 401},
+      { status: 401 },
     );
   }
 }

@@ -1,5 +1,5 @@
-import {Text, Button} from '~/components/elements';
-import {useRenderServerComponents} from '~/lib/utils';
+import { Text, Button } from '~/components/elements';
+import { useRenderServerComponents } from '~/lib/utils';
 
 export function AccountDeleteAddress({
   addressId,
@@ -23,26 +23,26 @@ export function AccountDeleteAddress({
 
   return (
     <>
-      <Text className="mb-4" as="h3" size="lead">
+      <Text className='mb-4' as='h3' size='lead'>
         Confirm removal
       </Text>
-      <Text as="p">Are you sure you wish to remove this address?</Text>
-      <div className="mt-6">
+      <Text as='p'>Are you sure you wish to remove this address?</Text>
+      <div className='mt-6'>
         <Button
-          className="text-sm"
+          className='text-sm'
           onClick={() => {
             deleteAddress(addressId);
           }}
-          variant="primary"
-          width="full"
+          variant='primary'
+          width='full'
         >
           Confirm
         </Button>
         <Button
-          className="text-sm mt-2"
+          className='text-sm mt-2'
           onClick={close}
-          variant="secondary"
-          width="full"
+          variant='secondary'
+          width='full'
         >
           Cancel
         </Button>

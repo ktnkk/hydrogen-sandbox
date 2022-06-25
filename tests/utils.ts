@@ -3,8 +3,8 @@ import {
   type Page,
   type Response as PlaywrightResponse,
 } from 'playwright';
-import type {Server} from 'http';
-import {createServer as createViteDevServer} from 'vite';
+import type { Server } from 'http';
+import { createServer as createViteDevServer } from 'vite';
 
 export const DEFAULT_DELAY = 60000;
 
@@ -41,12 +41,12 @@ export async function startHydrogenServer(): Promise<HydrogenServer> {
     await app.server?.close();
   };
 
-  return {url, newPage, cleanUp, watchForUpdates: () => {}};
+  return { url, newPage, cleanUp, watchForUpdates: () => {} };
 }
 
 async function createNodeServer() {
   // @ts-ignore
-  const {createServer} = await import('../dist/node');
+  const { createServer } = await import('../dist/node');
   const app = (await createServer()).app;
   const server = app.listen(0) as Server;
   const port: number = await new Promise((resolve) => {
@@ -55,12 +55,12 @@ async function createNodeServer() {
     });
   });
 
-  return {server, port};
+  return { server, port };
 }
 
 async function createDevServer() {
   const app = await createViteDevServer({
-    server: {force: true},
+    server: { force: true },
     logLevel: 'silent',
   });
   const server = await app.listen(0);

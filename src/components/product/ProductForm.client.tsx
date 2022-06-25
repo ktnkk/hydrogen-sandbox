@@ -1,4 +1,4 @@
-import {useEffect, useCallback, useState} from 'react';
+import { useEffect, useCallback, useState } from 'react';
 
 import {
   useProductOptions,
@@ -10,13 +10,13 @@ import {
   ShopPayButton,
 } from '@shopify/hydrogen';
 
-import {Heading, Text, Button, ProductOptions} from '~/components';
+import { Heading, Text, Button, ProductOptions } from '~/components';
 
 export function ProductForm() {
-  const {pathname, search} = useUrl();
+  const { pathname, search } = useUrl();
   const [params, setParams] = useState(new URLSearchParams(search));
 
-  const {options, setSelectedOption, selectedOptions, selectedVariant} =
+  const { options, setSelectedOption, selectedOptions, selectedVariant } =
     useProductOptions();
 
   const isOutOfStock = !selectedVariant?.availableForSale || false;
@@ -30,7 +30,7 @@ export function ProductForm() {
   }, [params, search]);
 
   useEffect(() => {
-    (options as OptionWithValues[]).map(({name, values}) => {
+    (options as OptionWithValues[]).map(({ name, values }) => {
       if (!params) return;
       const currentValue = params.get(name.toLowerCase()) || null;
       if (currentValue) {
@@ -73,22 +73,22 @@ export function ProductForm() {
   );
 
   return (
-    <form className="grid gap-10">
+    <form className='grid gap-10'>
       {
-        <div className="grid gap-4">
-          {(options as OptionWithValues[]).map(({name, values}) => {
+        <div className='grid gap-4'>
+          {(options as OptionWithValues[]).map(({ name, values }) => {
             if (values.length === 1) {
               return null;
             }
             return (
               <div
                 key={name}
-                className="flex flex-col flex-wrap mb-4 gap-y-2 last:mb-0"
+                className='flex flex-col flex-wrap mb-4 gap-y-2 last:mb-0'
               >
-                <Heading as="legend" size="lead" className="min-w-[4rem]">
+                <Heading as='legend' size='lead' className='min-w-[4rem]'>
                   {name}
                 </Heading>
-                <div className="flex flex-wrap items-baseline gap-4">
+                <div className='flex flex-wrap items-baseline gap-4'>
                   <ProductOptions
                     name={name}
                     handleChange={handleChange}
@@ -100,37 +100,37 @@ export function ProductForm() {
           })}
         </div>
       }
-      <div className="grid items-stretch gap-4">
+      <div className='grid items-stretch gap-4'>
         <AddToCartButton
           variantId={selectedVariant?.id}
           quantity={1}
-          accessibleAddingToCartLabel="Adding item to your cart"
+          accessibleAddingToCartLabel='Adding item to your cart'
           disabled={isOutOfStock}
         >
           <Button
-            width="full"
+            width='full'
             variant={isOutOfStock ? 'secondary' : 'primary'}
-            as="span"
+            as='span'
           >
             {isOutOfStock ? (
               <Text>Sold out</Text>
             ) : (
               <Text
-                as="span"
-                className="flex items-center justify-center gap-2"
+                as='span'
+                className='flex items-center justify-center gap-2'
               >
                 <span>Add to bag</span> <span>·</span>{' '}
                 <Money
                   withoutTrailingZeros
                   data={selectedVariant.priceV2!}
-                  as="span"
+                  as='span'
                 />
                 {isOnSale && (
                   <Money
                     withoutTrailingZeros
                     data={selectedVariant.compareAtPriceV2!}
-                    as="span"
-                    className="opacity-50 strike"
+                    as='span'
+                    className='opacity-50 strike'
                   />
                 )}
               </Text>

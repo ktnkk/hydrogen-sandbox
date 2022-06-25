@@ -6,17 +6,17 @@ import {
   gql,
   Link,
 } from '@shopify/hydrogen';
-import type {Shop} from '@shopify/hydrogen/storefront-api-types';
+import type { Shop } from '@shopify/hydrogen/storefront-api-types';
 
-import {PageHeader, Section, Heading} from '~/components';
-import {Layout, NotFound} from '~/components/index.server';
+import { PageHeader, Section, Heading } from '~/components';
+import { Layout, NotFound } from '~/components/index.server';
 
 export default function Policies() {
   const {
-    language: {isoCode: languageCode},
+    language: { isoCode: languageCode },
   } = useLocalization();
 
-  const {data} = useShopQuery<{
+  const { data } = useShopQuery<{
     shop: Shop;
   }>({
     query: POLICIES_QUERY,
@@ -48,19 +48,19 @@ export default function Policies() {
   ];
 
   if (policies.every((element) => element === null)) {
-    return <NotFound type="page" />;
+    return <NotFound type='page' />;
   }
 
   return (
     <Layout>
-      <PageHeader heading="Policies" />
-      <Section padding="x" className="mb-24">
+      <PageHeader heading='Policies' />
+      <Section padding='x' className='mb-24'>
         {policies.map((policy) => {
           if (!policy) {
             return;
           }
           return (
-            <Heading className="font-normal text-heading" key={policy.id}>
+            <Heading className='font-normal text-heading' key={policy.id}>
               <Link to={`/policies/${policy.handle}`}>{policy.title}</Link>
             </Heading>
           );

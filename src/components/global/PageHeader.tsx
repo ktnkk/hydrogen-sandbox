@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import {Heading} from '~/components';
+import { Heading } from '~/components';
 
 export function PageHeader({
   children,
@@ -28,7 +28,7 @@ export function PageHeader({
   return (
     <header {...props} className={styles}>
       {heading && (
-        <Heading as="h1" width="narrow" size="heading" className="inline-block">
+        <Heading as='h1' width='narrow' size='heading' className='inline-block'>
           {heading}
         </Heading>
       )}

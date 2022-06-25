@@ -1,0 +1,8 @@
+{
+  "extends": ["plugin:hydrogen/recommended", "plugin:hydrogen/typescript"],
+  "rules": {
+    "node/no-missing-import": 0,
+    "@typescript-eslint/ban-ts-comment": 0,
+    "@typescript-eslint/naming-convention": 0
+  }
+}

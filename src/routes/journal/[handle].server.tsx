@@ -7,24 +7,24 @@ import {
   CacheLong,
   type HydrogenRouteProps,
 } from '@shopify/hydrogen';
-import type {Blog} from '@shopify/hydrogen/storefront-api-types';
-import {Suspense} from 'react';
+import type { Blog } from '@shopify/hydrogen/storefront-api-types';
+import { Suspense } from 'react';
 
-import {CustomFont, PageHeader, Section} from '~/components';
-import {Layout} from '~/components/index.server';
-import {ATTR_LOADING_EAGER} from '~/lib/const';
+import { CustomFont, PageHeader, Section } from '~/components';
+import { Layout } from '~/components/index.server';
+import { ATTR_LOADING_EAGER } from '~/lib/const';
 
 const BLOG_HANDLE = 'journal';
 
-export default function Post({params, response}: HydrogenRouteProps) {
+export default function Post({ params, response }: HydrogenRouteProps) {
   response.cache(CacheLong());
   const {
-    language: {isoCode: languageCode},
-    country: {isoCode: countryCode},
+    language: { isoCode: languageCode },
+    country: { isoCode: countryCode },
   } = useLocalization();
 
-  const {handle} = params;
-  const {data} = useShopQuery<{
+  const { handle } = params;
+  const { data } = useShopQuery<{
     blog: Blog;
   }>({
     query: ARTICLE_QUERY,
@@ -39,7 +39,7 @@ export default function Post({params, response}: HydrogenRouteProps) {
     return <div>Article not found</div>;
   }
 
-  const {title, publishedAt, contentHtml, author} = data.blog.articleByHandle;
+  const { title, publishedAt, contentHtml, author } = data.blog.articleByHandle;
   const formattedDate = new Intl.DateTimeFormat(
     `${languageCode}-${countryCode}`,
     {
@@ -55,21 +55,21 @@ export default function Post({params, response}: HydrogenRouteProps) {
       <CustomFont />
       <Suspense>
         {/* @ts-expect-error Blog article types are not supported in TS */}
-        <Seo type="page" data={data.blog.articleByHandle} />
+        <Seo type='page' data={data.blog.articleByHandle} />
       </Suspense>
-      <PageHeader heading={title} variant="blogPost">
+      <PageHeader heading={title} variant='blogPost'>
         <span>
           {formattedDate} &middot; {author.name}
         </span>
       </PageHeader>
-      <Section as="article" padding="x">
+      <Section as='article' padding='x'>
         {data.blog.articleByHandle.image && (
           <Image
             data={data.blog.articleByHandle.image}
-            className="w-full mx-auto mt-8 md:mt-16 max-w-7xl"
-            sizes="90vw"
+            className='w-full mx-auto mt-8 md:mt-16 max-w-7xl'
+            sizes='90vw'
             widths={[400, 800, 1200]}
-            width="100px"
+            width='100px'
             loading={ATTR_LOADING_EAGER}
             loaderOptions={{
               scale: 2,
@@ -78,8 +78,8 @@ export default function Post({params, response}: HydrogenRouteProps) {
           />
         )}
         <div
-          dangerouslySetInnerHTML={{__html: contentHtml}}
-          className="article"
+          dangerouslySetInnerHTML={{ __html: contentHtml }}
+          className='article'
         />
       </Section>
     </Layout>

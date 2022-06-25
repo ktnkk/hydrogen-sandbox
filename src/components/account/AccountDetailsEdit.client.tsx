@@ -1,6 +1,6 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
-import {Text, Button} from '~/components';
+import { Text, Button } from '~/components';
 import {
   emailValidation,
   passwordValidation,
@@ -122,72 +122,72 @@ export function AccountDetailsEdit({
 
   return (
     <>
-      <Text className="mt-4 mb-6" as="h3" size="lead">
+      <Text className='mt-4 mb-6' as='h3' size='lead'>
         Update your profile
       </Text>
       <form noValidate onSubmit={onSubmit}>
         {submitError && (
-          <div className="flex items-center justify-center mb-6 bg-red-100 rounded">
-            <p className="m-4 text-sm text-red-900">{submitError}</p>
+          <div className='flex items-center justify-center mb-6 bg-red-100 rounded'>
+            <p className='m-4 text-sm text-red-900'>{submitError}</p>
           </div>
         )}
-        <div className="mt-3">
+        <div className='mt-3'>
           <input
             className={`appearance-none border w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline border-gray-500 rounded`}
-            id="firstname"
-            name="firstname"
-            type="text"
-            autoComplete="given-name"
-            placeholder="First name"
-            aria-label="First name"
+            id='firstname'
+            name='firstname'
+            type='text'
+            autoComplete='given-name'
+            placeholder='First name'
+            aria-label='First name'
             value={firstName}
             onChange={(event) => {
               setFirstName(event.target.value);
             }}
           />
         </div>
-        <div className="mt-3">
+        <div className='mt-3'>
           <input
             className={`appearance-none border w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline border-gray-500 rounded`}
-            id="lastname"
-            name="lastname"
-            type="text"
-            autoComplete="family-name"
-            placeholder="Last name"
-            aria-label="Last name"
+            id='lastname'
+            name='lastname'
+            type='text'
+            autoComplete='family-name'
+            placeholder='Last name'
+            aria-label='Last name'
             value={lastName}
             onChange={(event) => {
               setLastName(event.target.value);
             }}
           />
         </div>
-        <div className="mt-3">
+        <div className='mt-3'>
           <input
             className={`appearance-none border w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline border-gray-500 rounded`}
-            id="phone"
-            name="phone"
-            type="tel"
-            autoComplete="tel"
-            placeholder="Mobile"
-            aria-label="Mobile"
+            id='phone'
+            name='phone'
+            type='tel'
+            autoComplete='tel'
+            placeholder='Mobile'
+            aria-label='Mobile'
             value={phone}
             onChange={(event) => {
               setPhone(event.target.value);
             }}
           />
         </div>
-        <div className="mt-3">
+        <div className='mt-3'>
           <input
             className={`appearance-none border w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline rounded ${
               emailError ? ' border-red-500' : 'border-gray-500'
             }`}
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
+            id='email'
+            name='email'
+            type='email'
+            autoComplete='email'
             required
-            placeholder="Email address"
-            aria-label="Email address"
+            placeholder='Email address'
+            aria-label='Email address'
             value={email}
             onChange={(event) => {
               setEmail(event.target.value);
@@ -199,27 +199,27 @@ export function AccountDetailsEdit({
             {emailError} &nbsp;
           </p>
         </div>
-        <Text className="mb-6 mt-6" as="h3" size="lead">
+        <Text className='mb-6 mt-6' as='h3' size='lead'>
           Change your password
         </Text>
         <Password
-          name="currentPassword"
-          label="Current password"
+          name='currentPassword'
+          label='Current password'
           passwordError={currentPasswordError}
         />
         <Password
-          name="newPassword"
-          label="New password"
+          name='newPassword'
+          label='New password'
           passwordError={newPasswordError}
         />
         <Password
-          name="newPassword2"
-          label="Re-enter new password"
+          name='newPassword2'
+          label='Re-enter new password'
           passwordError={newPassword2Error}
         />
         <Text
-          size="fine"
-          color="subtle"
+          size='fine'
+          color='subtle'
           className={`mt-1 ${
             currentPasswordError || newPasswordError ? 'text-red-500' : ''
           }`}
@@ -228,30 +228,30 @@ export function AccountDetailsEdit({
         </Text>
         {newPassword2Error ? <br /> : null}
         <Text
-          size="fine"
+          size='fine'
           className={`mt-1 text-red-500 ${
             newPassword2Error ? '' : 'invisible'
           }`}
         >
           {newPassword2Error} &nbsp;
         </Text>
-        <div className="mt-6">
+        <div className='mt-6'>
           <Button
-            className="text-sm mb-2"
-            variant="primary"
-            width="full"
-            type="submit"
+            className='text-sm mb-2'
+            variant='primary'
+            width='full'
+            type='submit'
             disabled={saving}
           >
             Save
           </Button>
         </div>
-        <div className="mb-4">
+        <div className='mb-4'>
           <Button
-            type="button"
-            className="text-sm"
-            variant="secondary"
-            width="full"
+            type='button'
+            className='text-sm'
+            variant='secondary'
+            width='full'
             onClick={close}
           >
             Cancel
@@ -274,14 +274,14 @@ function Password({
   const [password, setPassword] = useState('');
 
   return (
-    <div className="mt-3">
+    <div className='mt-3'>
       <input
         className={`appearance-none border w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline rounded ${
           passwordError ? ' border-red-500' : 'border-gray-500'
         }`}
         id={name}
         name={name}
-        type="password"
+        type='password'
         autoComplete={
           name === 'currentPassword' ? 'current-password' : undefined
         }

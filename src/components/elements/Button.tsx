@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import {Link} from '@shopify/hydrogen';
+import { Link } from '@shopify/hydrogen';
 
-import {missingClass} from '~/lib/utils';
+import { missingClass } from '~/lib/utils';
 
 export function Button({
   as = 'button',

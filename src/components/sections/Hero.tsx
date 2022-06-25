@@ -1,7 +1,7 @@
-import {Image, Link, Video} from '@shopify/hydrogen';
-import type {Media} from '@shopify/hydrogen/storefront-api-types';
+import { Image, Link, Video } from '@shopify/hydrogen';
+import type { Media } from '@shopify/hydrogen/storefront-api-types';
 
-import {Heading, Text} from '~/components';
+import { Heading, Text } from '~/components';
 
 interface Metafield {
   value: string;
@@ -40,9 +40,9 @@ export function Hero({
             : 'aspect-[4/5] sm:aspect-square md:aspect-[5/4] lg:aspect-[3/2] xl:aspect-[2/1]'
         }`}
       >
-        <div className="absolute inset-0 grid flex-grow grid-flow-col pointer-events-none auto-cols-fr -z-10 content-stretch overflow-clip">
+        <div className='absolute inset-0 grid flex-grow grid-flow-col pointer-events-none auto-cols-fr -z-10 content-stretch overflow-clip'>
           {spread?.reference && (
-            <div className="">
+            <div className=''>
               <SpreadMedia
                 scale={2}
                 sizes={
@@ -62,9 +62,9 @@ export function Hero({
             </div>
           )}
           {spreadSecondary?.reference && (
-            <div className="hidden md:block">
+            <div className='hidden md:block'>
               <SpreadMedia
-                sizes="(min-width: 80em) 700, (min-width: 48em) 450, 500"
+                sizes='(min-width: 80em) 700, (min-width: 48em) 450, 500'
                 widths={[450, 700]}
                 width={375}
                 data={spreadSecondary.reference}
@@ -72,18 +72,18 @@ export function Hero({
             </div>
           )}
         </div>
-        <div className="flex flex-col items-baseline justify-between gap-4 px-6 py-8 sm:px-8 md:px-12 bg-gradient-to-t dark:from-contrast/60 dark:text-primary from-primary/60 text-contrast">
+        <div className='flex flex-col items-baseline justify-between gap-4 px-6 py-8 sm:px-8 md:px-12 bg-gradient-to-t dark:from-contrast/60 dark:text-primary from-primary/60 text-contrast'>
           {heading?.value && (
-            <Heading format as="h2" size="display" className="max-w-md">
+            <Heading format as='h2' size='display' className='max-w-md'>
               {heading.value}
             </Heading>
           )}
           {byline?.value && (
-            <Text format width="narrow" as="p" size="lead">
+            <Text format width='narrow' as='p' size='lead'>
               {byline.value}
             </Text>
           )}
-          {cta?.value && <Text size="lead">{cta.value}</Text>}
+          {cta?.value && <Text size='lead'>{cta.value}</Text>}
         </div>
       </section>
     </Link>
@@ -110,9 +110,9 @@ function SpreadMedia({
   if (data.mediaContentType === 'VIDEO') {
     return (
       <Video
-        previewImageOptions={{scale, src: data.previewImage!.url}}
+        previewImageOptions={{ scale, src: data.previewImage!.url }}
         width={scale! * width}
-        className="block object-cover w-full h-full"
+        className='block object-cover w-full h-full'
         data={data}
         controls={false}
         muted
@@ -129,12 +129,12 @@ function SpreadMedia({
         widths={widths}
         sizes={sizes}
         alt={data.alt || 'Marketing Banner Image'}
-        className="block object-cover w-full h-full"
+        className='block object-cover w-full h-full'
         // @ts-ignore
         data={data.image}
         loading={loading}
         width={width}
-        loaderOptions={{scale, crop: 'center'}}
+        loaderOptions={{ scale, crop: 'center' }}
       />
     );
   }

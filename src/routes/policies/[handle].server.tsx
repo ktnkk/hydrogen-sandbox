@@ -7,16 +7,16 @@ import {
   gql,
   type HydrogenRouteProps,
 } from '@shopify/hydrogen';
-import {Suspense} from 'react';
+import { Suspense } from 'react';
 
-import {Button, PageHeader, Section} from '~/components';
-import {NotFound, Layout} from '~/components/index.server';
+import { Button, PageHeader, Section } from '~/components';
+import { NotFound, Layout } from '~/components/index.server';
 
-export default function Policy({params}: HydrogenRouteProps) {
+export default function Policy({ params }: HydrogenRouteProps) {
   const {
-    language: {isoCode: languageCode},
+    language: { isoCode: languageCode },
   } = useLocalization();
-  const {handle} = params;
+  const { handle } = params;
 
   // standard policy pages
   const policy: Record<string, boolean> = {
@@ -40,7 +40,7 @@ export default function Policy({params}: HydrogenRouteProps) {
   const activePolicy = Object.keys(policy).find((key) => policy[key])!;
 
   const {
-    data: {shop},
+    data: { shop },
   } = useShopQuery({
     query: POLICIES_QUERY,
     variables: {
@@ -66,29 +66,29 @@ export default function Policy({params}: HydrogenRouteProps) {
   return (
     <Layout>
       <Suspense>
-        <Seo type="page" data={page} />
+        <Seo type='page' data={page} />
       </Suspense>
       <Section
-        padding="all"
-        display="flex"
-        className="flex-col items-baseline w-full gap-8 md:flex-row"
+        padding='all'
+        display='flex'
+        className='flex-col items-baseline w-full gap-8 md:flex-row'
       >
         <PageHeader
           heading={page.title}
-          className="grid items-start flex-grow gap-4 md:sticky top-36 md:w-5/12"
+          className='grid items-start flex-grow gap-4 md:sticky top-36 md:w-5/12'
         >
           <Button
-            className="justify-self-start"
-            variant="inline"
+            className='justify-self-start'
+            variant='inline'
             to={'/policies'}
           >
             &larr; Back to Policies
           </Button>
         </PageHeader>
-        <div className="flex-grow w-full md:w-7/12">
+        <div className='flex-grow w-full md:w-7/12'>
           <div
-            dangerouslySetInnerHTML={{__html: page.body}}
-            className="prose dark:prose-invert"
+            dangerouslySetInnerHTML={{ __html: page.body }}
+            className='prose dark:prose-invert'
           />
         </div>
       </Section>

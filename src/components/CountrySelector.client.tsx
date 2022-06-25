@@ -1,10 +1,10 @@
-import {useCallback, useState, Suspense} from 'react';
-import {useLocalization, fetchSync} from '@shopify/hydrogen';
+import { useCallback, useState, Suspense } from 'react';
+import { useLocalization, fetchSync } from '@shopify/hydrogen';
 // @ts-expect-error @headlessui/react incompatibility with node16 resolution
-import {Listbox} from '@headlessui/react';
+import { Listbox } from '@headlessui/react';
 
-import {IconCheck, IconCaret} from '~/components';
-import {useMemo} from 'react';
+import { IconCheck, IconCaret } from '~/components';
+import { useMemo } from 'react';
 import type {
   Country,
   CountryCode,
@@ -16,9 +16,9 @@ import type {
 export function CountrySelector() {
   const [listboxOpen, setListboxOpen] = useState(false);
   const {
-    country: {isoCode},
+    country: { isoCode },
   } = useLocalization();
-  const currentCountry = useMemo<{name: string; isoCode: CountryCode}>(() => {
+  const currentCountry = useMemo<{ name: string; isoCode: CountryCode }>(() => {
     const regionNamesInEnglish = new Intl.DisplayNames(['en'], {
       type: 'region',
     });
@@ -30,7 +30,7 @@ export function CountrySelector() {
   }, [isoCode]);
 
   const setCountry = useCallback<(country: Country) => void>(
-    ({isoCode: newIsoCode}) => {
+    ({ isoCode: newIsoCode }) => {
       const currentPath = window.location.pathname;
       let redirectPath;
 
@@ -52,10 +52,10 @@ export function CountrySelector() {
   );
 
   return (
-    <div className="relative">
+    <div className='relative'>
       <Listbox onChange={setCountry}>
         {/* @ts-expect-error @headlessui/react incompatibility with node16 resolution */}
-        {({open}) => {
+        {({ open }) => {
           setTimeout(() => setListboxOpen(open));
           return (
             <>
@@ -64,7 +64,7 @@ export function CountrySelector() {
                   open ? 'rounded-b md:rounded-t md:rounded-b-none' : 'rounded'
                 } border-contrast/30 dark:border-white`}
               >
-                <span className="">{currentCountry.name}</span>
+                <span className=''>{currentCountry.name}</span>
                 <IconCaret direction={open ? 'up' : 'down'} />
               </Listbox.Button>
 
@@ -77,7 +77,7 @@ export function CountrySelector() {
                 }`}
               >
                 {listboxOpen && (
-                  <Suspense fallback={<div className="p-2">Loading…</div>}>
+                  <Suspense fallback={<div className='p-2'>Loading…</div>}>
                     {/* @ts-expect-error @headlessui/react incompatibility with node16 resolution */}
                     <Countries
                       selectedCountry={currentCountry}
@@ -115,7 +115,7 @@ export function Countries({
     return (
       <Listbox.Option key={country.isoCode} value={country}>
         {/* @ts-expect-error @headlessui/react incompatibility with node16 resolution */}
-        {({active}) => (
+        {({ active }) => (
           <div
             className={`text-contrast dark:text-primary ${getClassName(
               active,
@@ -123,7 +123,7 @@ export function Countries({
           >
             {country.name}
             {isSelected ? (
-              <span className="ml-2">
+              <span className='ml-2'>
                 <IconCheck />
               </span>
             ) : null}

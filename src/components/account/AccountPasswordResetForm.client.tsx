@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import {useNavigate} from '@shopify/hydrogen/client';
+import { useState } from 'react';
+import { useNavigate } from '@shopify/hydrogen/client';
 
 interface FormElements {
   password: HTMLInputElement;
@@ -79,27 +79,27 @@ export function AccountPasswordResetForm({
   }
 
   return (
-    <div className="flex justify-center my-24 px-4">
-      <div className="max-w-md w-full">
-        <h1 className="text-4xl">Reset Password.</h1>
-        <p className="mt-4">Enter a new password for your account.</p>
-        <form noValidate className="pt-6 pb-8 mt-4 mb-4" onSubmit={onSubmit}>
+    <div className='flex justify-center my-24 px-4'>
+      <div className='max-w-md w-full'>
+        <h1 className='text-4xl'>Reset Password.</h1>
+        <p className='mt-4'>Enter a new password for your account.</p>
+        <form noValidate className='pt-6 pb-8 mt-4 mb-4' onSubmit={onSubmit}>
           {submitError && (
-            <div className="flex items-center justify-center mb-6 bg-zinc-500">
-              <p className="m-4 text-s text-contrast">{submitError}</p>
+            <div className='flex items-center justify-center mb-6 bg-zinc-500'>
+              <p className='m-4 text-s text-contrast'>{submitError}</p>
             </div>
           )}
-          <div className="mb-3">
+          <div className='mb-3'>
             <input
               className={`mb-1 appearance-none border w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline ${
                 passwordError ? ' border-red-500' : 'border-gray-900'
               }`}
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              placeholder="Password"
-              aria-label="Password"
+              id='password'
+              name='password'
+              type='password'
+              autoComplete='current-password'
+              placeholder='Password'
+              aria-label='Password'
               // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
               value={password}
@@ -117,17 +117,17 @@ export function AccountPasswordResetForm({
               {passwordError} &nbsp;
             </p>
           </div>
-          <div className="mb-3">
+          <div className='mb-3'>
             <input
               className={`mb-1 appearance-none border w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline ${
                 passwordConfirmError ? ' border-red-500' : 'border-gray-900'
               }`}
-              id="passwordConfirm"
-              name="passwordConfirm"
-              type="password"
-              autoComplete="current-password"
-              placeholder="Re-enter password"
-              aria-label="Re-enter password"
+              id='passwordConfirm'
+              name='passwordConfirm'
+              type='password'
+              autoComplete='current-password'
+              placeholder='Re-enter password'
+              aria-label='Re-enter password'
               value={passwordConfirm}
               required
               minLength={8}
@@ -143,10 +143,10 @@ export function AccountPasswordResetForm({
               {passwordConfirmError} &nbsp;
             </p>
           </div>
-          <div className="flex items-center justify-between">
+          <div className='flex items-center justify-between'>
             <button
-              className="bg-gray-900 text-contrast rounded py-2 px-4 focus:shadow-outline block w-full"
-              type="submit"
+              className='bg-gray-900 text-contrast rounded py-2 px-4 focus:shadow-outline block w-full'
+              type='submit'
             >
               Save
             </button>
@@ -173,7 +173,7 @@ export async function callPasswordResetApi({
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({id, resetToken, password}),
+      body: JSON.stringify({ id, resetToken, password }),
     });
 
     if (res.ok) {
