@@ -78,7 +78,6 @@ const Post: FC<HydrogenRouteProps> = ({ params, response }) => {
       {/* @ts-ignore */}
       <CustomFont />
       <Suspense>
-        {/* @ts-expect-error Blog article types are not supported in TS */}
         <Seo type='page' data={data.blog.articleByHandle} />
       </Suspense>
       <PageHeader heading={title} variant='blogPost'>

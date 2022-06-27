@@ -406,6 +406,7 @@ const OrderDetails = ({ response }: HydrogenRouteProps) => {
                     </Text>
                   </li>
                   {order?.shippingAddress?.formatted ? (
+                    // @ts-ignore
                     order.shippingAddress.formatted.map((line) => (
                       <li key={line}>
                         <Text>{line}</Text>

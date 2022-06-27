@@ -26,7 +26,6 @@ export const OrderCard: FC<{ order: Order }> = ({ order }) => {
               widths={[168]}
               className='w-full fadeIn cover'
               alt={lineItems[0].variant?.image?.altText ?? 'Order image'}
-              // @ts-expect-error Stock line item variant image type has `url` as optional
               data={lineItems[0].variant?.image}
               loaderOptions={{ scale: 2, crop: 'center' }}
             />
