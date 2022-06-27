@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
+/* eslint-disable import/no-extraneous-dependencies,eslint-comments/disable-enable-pair */
 import hydrogen from '@shopify/hydrogen/plugin';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [hydrogen()],
