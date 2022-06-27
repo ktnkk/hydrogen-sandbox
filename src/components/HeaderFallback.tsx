@@ -1,4 +1,19 @@
-export function HeaderFallback({ isHome }: { isHome?: boolean }) {
+import type { FC } from 'react';
+
+const Box: FC<Partial<Record<'wide' | 'isHome', boolean>>> = ({
+  wide,
+  isHome,
+}) => {
+  return (
+    <div
+      className={`h-6 rounded-sm ${wide ? 'w-32' : 'w-16'} ${
+        isHome ? 'bg-primary/60' : 'bg-primary/20'
+      }`}
+    />
+  );
+};
+
+export const HeaderFallback: FC<{ isHome?: boolean }> = ({ isHome }) => {
   const styles = isHome
     ? 'bg-primary/80 dark:bg-contrast/60 text-contrast dark:text-primary shadow-darkHeader'
     : 'bg-contrast/80 text-primary';
@@ -17,14 +32,4 @@ export function HeaderFallback({ isHome }: { isHome?: boolean }) {
       <Box isHome={isHome} wide={true} />
     </header>
   );
-}
-
-function Box({ wide, isHome }: { wide?: boolean; isHome?: boolean }) {
-  return (
-    <div
-      className={`h-6 rounded-sm ${wide ? 'w-32' : 'w-16'} ${
-        isHome ? 'bg-primary/60' : 'bg-primary/20'
-      }`}
-    />
-  );
-}
+};

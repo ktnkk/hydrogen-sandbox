@@ -1,40 +1,10 @@
 import { gql, useShopQuery } from '@shopify/hydrogen';
-
-import { PRODUCT_CARD_FRAGMENT } from '~/lib/fragments';
 import { FeaturedCollections } from '~/components';
 import { ProductSwimlane } from '~/components/index.server';
 import { PAGINATION_SIZE } from '~/lib/const';
-
-export function NoResultRecommendations({
-  country,
-  language,
-}: {
-  country: string;
-  language: string;
-}) {
-  const { data } = useShopQuery<any>({
-    query: SEARCH_NO_RESULTS_QUERY,
-    variables: {
-      country,
-      language,
-      pageBy: PAGINATION_SIZE,
-    },
-    preload: false,
-  });
-
-  return (
-    <>
-      <FeaturedCollections
-        title='Trending Collections'
-        data={data.featuredCollections.nodes}
-      />
-      <ProductSwimlane
-        title='Trending Products'
-        data={data.featuredProducts.nodes}
-      />
-    </>
-  );
-}
+import { PRODUCT_CARD_FRAGMENT } from '~/lib/fragments';
+import type { Collection } from '@shopify/hydrogen/storefront-api-types';
+import type { FC } from 'react';
 
 const SEARCH_NO_RESULTS_QUERY = gql`
   ${PRODUCT_CARD_FRAGMENT}
@@ -63,3 +33,30 @@ const SEARCH_NO_RESULTS_QUERY = gql`
     }
   }
 `;
+
+export const NoResultRecommendations: FC<
+  Record<'country' | 'language', string>
+> = ({ country, language }) => {
+  const { data } = useShopQuery<any>({
+    query: SEARCH_NO_RESULTS_QUERY,
+    variables: {
+      country,
+      language,
+      pageBy: PAGINATION_SIZE,
+    },
+    preload: false,
+  });
+
+  return (
+    <>
+      <FeaturedCollections
+        title='Trending Collections'
+        data={data.featuredCollections.nodes as Collection[]}
+      />
+      <ProductSwimlane
+        title='Trending Products'
+        data={data.featuredProducts.nodes}
+      />
+    </>
+  );
+};

@@ -4,22 +4,34 @@ import {
   type HydrogenApiRouteOptions,
   type HydrogenRequest,
 } from '@shopify/hydrogen';
-
 import { getApiErrorMessage } from '~/lib/utils';
+
+const CUSTOMER_ACTIVATE_MUTATION = gql`
+  mutation customerActivate($id: ID!, $input: CustomerActivateInput!) {
+    customerActivate(id: $id, input: $input) {
+      customerAccessToken {
+        accessToken
+        expiresAt
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
 
 /**
  * This API route is used by the form on `/account/activate/[id]/[activationToken]`
  * complete the reset of the user's password.
  */
-export async function api(
+export const api = async (
   request: HydrogenRequest,
   { session, queryShop }: HydrogenApiRouteOptions,
-) {
-  if (!session) {
-    return new Response('Session storage not available.', {
-      status: 400,
-    });
-  }
+) => {
+  if (!session)
+    return new Response('Session storage not available.', { status: 400 });
 
   const jsonBody = await request.json();
 
@@ -48,7 +60,7 @@ export async function api(
   });
 
   if (data?.customerActivate?.customerAccessToken?.accessToken) {
-    await session.set(
+    await session?.set(
       'customerAccessToken',
       data.customerActivate.customerAccessToken.accessToken,
     );
@@ -64,20 +76,4 @@ export async function api(
       { status: 401 },
     );
   }
-}
-
-const CUSTOMER_ACTIVATE_MUTATION = gql`
-  mutation customerActivate($id: ID!, $input: CustomerActivateInput!) {
-    customerActivate(id: $id, input: $input) {
-      customerAccessToken {
-        accessToken
-        expiresAt
-      }
-      customerUserErrors {
-        code
-        field
-        message
-      }
-    }
-  }
-`;
+};

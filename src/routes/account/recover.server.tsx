@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import {
   CacheNone,
   Seo,
@@ -7,9 +6,21 @@ import {
   type HydrogenApiRouteOptions,
   type HydrogenRouteProps,
 } from '@shopify/hydrogen';
-
+import { FC, Suspense } from 'react';
 import { AccountRecoverForm } from '~/components';
 import { Layout } from '~/components/index.server';
+
+const CUSTOMER_RECOVER_MUTATION = gql`
+  mutation customerRecover($email: String!) {
+    customerRecover(email: $email) {
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
 
 /**
  * A form for the user to fill out to _initiate_ a password reset.
@@ -17,7 +28,7 @@ import { Layout } from '~/components/index.server';
  * to reset their password. Clicking the link leads the user to the
  * page `/account/reset/[resetToken]`.
  */
-export default function AccountRecover({ response }: HydrogenRouteProps) {
+const AccountRecover: FC<HydrogenRouteProps> = ({ response }) => {
   response.cache(CacheNone());
 
   return (
@@ -28,12 +39,12 @@ export default function AccountRecover({ response }: HydrogenRouteProps) {
       <AccountRecoverForm />
     </Layout>
   );
-}
+};
 
-export async function api(
+export const api = async (
   request: HydrogenRequest,
   { queryShop }: HydrogenApiRouteOptions,
-) {
+) => {
   const jsonBody = await request.json();
 
   if (!jsonBody.email || jsonBody.email === '') {
@@ -56,16 +67,6 @@ export async function api(
   return new Response(null, {
     status: 200,
   });
-}
+};
 
-const CUSTOMER_RECOVER_MUTATION = gql`
-  mutation customerRecover($email: String!) {
-    customerRecover(email: $email) {
-      customerUserErrors {
-        code
-        field
-        message
-      }
-    }
-  }
-`;
+export default AccountRecover;

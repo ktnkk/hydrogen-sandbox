@@ -1,13 +1,12 @@
-import { CartDetails } from '~/components/cart';
-import { Drawer } from './Drawer.client';
+import { CartDetails, Drawer } from '~/components';
+import type { FC } from 'react';
 
-export function CartDrawer({
-  isOpen,
-  onClose,
-}: {
+type CartDrawerProps = {
   isOpen: boolean;
   onClose: () => void;
-}) {
+};
+
+export const CartDrawer: FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   return (
     <Drawer open={isOpen} onClose={onClose} heading='Cart' openFrom='right'>
       <div className='grid'>
@@ -15,4 +14,4 @@ export function CartDrawer({
       </div>
     </Drawer>
   );
-}
+};

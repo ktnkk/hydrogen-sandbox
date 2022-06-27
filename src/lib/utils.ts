@@ -1,14 +1,24 @@
-import React, { useCallback } from 'react';
 import { useServerProps } from '@shopify/hydrogen';
-import {
+import { ReactNode, useCallback } from 'react';
+// @ts-ignore
+import typographicBase from 'typographic-base';
+import type {
   Menu,
   MenuItem,
   MoneyV2,
   UserError,
 } from '@shopify/hydrogen/storefront-api-types';
 
-// @ts-expect-error types not available
-import typographicBase from 'typographic-base';
+export type EnhancedMenuItem = {
+  to: string;
+  target: string;
+  isExternal?: boolean;
+  items: EnhancedMenuItem[];
+} & MenuItem;
+
+export type EnhancedMenu = {
+  items: EnhancedMenuItem[];
+} & Menu;
 
 /**
  * This is a hack until we have better built-in primitives for
@@ -16,59 +26,49 @@ import typographicBase from 'typographic-base';
  *
  * @returns function when called will cause the current page to re-render on the server
  */
-export function useRenderServerComponents() {
+export const useRenderServerComponents = () => {
   const { serverProps, setServerProps } = useServerProps();
 
   return useCallback(() => {
     setServerProps('renderRsc', !serverProps.renderRsc);
   }, [serverProps, setServerProps]);
-}
+};
 
-export function missingClass(string?: string, prefix?: string) {
-  if (!string) {
-    return true;
-  }
+export const missingClass = (string?: string, prefix?: string) => {
+  if (!string) return true;
 
   const regex = new RegExp(` ?${prefix}`, 'g');
   return string.match(regex) === null;
-}
+};
 
-export function formatText(input?: string | React.ReactNode) {
-  if (!input) {
-    return;
-  }
+export const formatText = (input?: string | ReactNode) => {
+  if (!input) return;
 
-  if (typeof input !== 'string') {
-    return input;
-  }
+  if (typeof input !== 'string') return input;
 
   return typographicBase(input, { locale: 'en-us' }).replace(
     /\s([^\s<]+)\s*$/g,
     '\u00A0$1',
   );
-}
+};
 
-export function isNewArrival(date: string, daysOld = 30) {
+export const isNewArrival = (date: string, daysOld = 30) => {
   return (
     new Date(date).valueOf() >
     new Date().setDate(new Date().getDate() - daysOld).valueOf()
   );
-}
+};
 
-export function isDiscounted(price: MoneyV2, compareAtPrice: MoneyV2) {
-  if (compareAtPrice?.amount > price?.amount) {
-    return true;
-  }
-  return false;
-}
+export const isDiscounted = (price: MoneyV2, compareAtPrice: MoneyV2) =>
+  compareAtPrice?.amount > price?.amount;
 
-export function getExcerpt(text: string) {
+export const getExcerpt = (text: string) => {
   const regex = /<p.*>(.*?)<\/p>/;
   const match = regex.exec(text);
   return match?.length ? match[0] : text;
-}
+};
 
-function resolveToFromType(
+const resolveToFromType = (
   {
     customPrefixes,
     pathname,
@@ -80,13 +80,9 @@ function resolveToFromType(
   } = {
     customPrefixes: {},
   },
-) {
+) => {
   if (!pathname || !type) return '';
 
-  /*
-    MenuItemType enum
-    @see: https://shopify.dev/api/storefront/unstable/enums/MenuItemType
-  */
   const defaultPrefixes = {
     BLOG: 'blogs',
     COLLECTION: 'collections',
@@ -134,13 +130,13 @@ function resolveToFromType(
         ? `/${routePrefix[type]}/${handle}`
         : `/${handle}`;
   }
-}
+};
 
-/*
-  Parse each menu link and adding, isExternal, to and target
-*/
-function parseItem(customPrefixes = {}) {
-  return function (item: MenuItem): EnhancedMenuItem {
+/**
+ * Parse each menu link and adding, isExternal, to and target
+ */
+const parseItem = (customPrefixes = {}) => {
+  return (item: MenuItem): EnhancedMenuItem => {
     if (!item?.url || !item?.type) {
       // eslint-disable-next-line no-console
       console.warn('Invalid menu item.  Must include a url and type.');
@@ -151,10 +147,10 @@ function parseItem(customPrefixes = {}) {
     // extract path from url because we don't need the origin on internal to attributes
     const { pathname } = new URL(item.url);
 
-    /*
-      Currently the MenuAPI only returns online store urls e.g — xyz.myshopify.com/..
-      Note: update logic when API is updated to include the active qualified domain
-    */
+    /**
+     * Currently the MenuAPI only returns online store urls e.g — xyz.myshopify.com/..
+     *       Note: update logic when API is updated to include the active qualified domain
+     */
     const isInternalLink = /\.myshopify\.com/g.test(item.url);
 
     const parsedItem = isInternalLink
@@ -178,25 +174,14 @@ function parseItem(customPrefixes = {}) {
       items: item.items?.map(parseItem(customPrefixes)),
     };
   };
-}
+};
 
-export interface EnhancedMenuItem extends MenuItem {
-  to: string;
-  target: string;
-  isExternal?: boolean;
-  items: EnhancedMenuItem[];
-}
-
-export interface EnhancedMenu extends Menu {
-  items: EnhancedMenuItem[];
-}
-
-/*
-  Recursively adds `to` and `target` attributes to links based on their url
-  and resource type.
-  It optionally overwrites url paths based on item.type
-*/
-export function parseMenu(menu: Menu, customPrefixes = {}): EnhancedMenu {
+/**
+ * Recursively adds `to` and `target` attributes to links based on their url
+ *   and resource type.
+ *   It optionally overwrites url paths based on item.type
+ */
+export const parseMenu = (menu: Menu, customPrefixes = {}): EnhancedMenu => {
   if (!menu?.items) {
     // eslint-disable-next-line no-console
     console.warn('Invalid menu passed to parseMenu');
@@ -208,20 +193,20 @@ export function parseMenu(menu: Menu, customPrefixes = {}): EnhancedMenu {
     ...menu,
     items: menu.items.map(parseItem(customPrefixes)),
   };
-}
+};
 
-export function getApiErrorMessage(
+export const getApiErrorMessage = (
   field: string,
   data: Record<string, any>,
   errors: UserError[],
-) {
-  if (errors?.length) return errors[0].message ?? errors[0];
+) => {
+  if (errors?.length) return errors[0]?.message ?? errors[0];
   if (data?.[field]?.customerUserErrors?.length)
     return data[field].customerUserErrors[0].message;
   return null;
-}
+};
 
-export function statusMessage(status: string) {
+export const statusMessage = (status: string) => {
   const translations: Record<string, string> = {
     ATTEMPTED_DELIVERY: 'Attempted delivery',
     CANCELED: 'Canceled',
@@ -253,22 +238,19 @@ export function statusMessage(status: string) {
   } catch (error) {
     return status;
   }
-}
+};
 
-export function emailValidation(email: HTMLInputElement) {
+export const emailValidation = (email: HTMLInputElement) => {
   if (email.validity.valid) return null;
 
   return email.validity.valueMissing
     ? 'Please enter an email'
     : 'Please enter a valid email';
-}
+};
 
-export function passwordValidation(password: HTMLInputElement) {
+export const passwordValidation = (password: HTMLInputElement) => {
   if (password.validity.valid) return null;
-
-  if (password.validity.valueMissing) {
-    return 'Please enter a password';
-  }
+  if (password.validity.valueMissing) return 'Please enter a password';
 
   return 'Password must be at least 6 characters';
-}
+};

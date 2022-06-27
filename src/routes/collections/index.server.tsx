@@ -1,55 +1,9 @@
-import { Suspense } from 'react';
 import { useShopQuery, useLocalization, gql, Seo } from '@shopify/hydrogen';
-import type { Collection } from '@shopify/hydrogen/storefront-api-types';
-
+import { Suspense } from 'react';
 import { PageHeader, Section, Grid } from '~/components';
 import { Layout, CollectionCard } from '~/components/index.server';
 import { getImageLoadingPriority, PAGINATION_SIZE } from '~/lib/const';
-
-export default function Collections() {
-  return (
-    <Layout>
-      <Seo type='page' data={{ title: 'All Collections' }} />
-      <PageHeader heading='Collections' />
-      <Section>
-        <Suspense>
-          <CollectionGrid />
-        </Suspense>
-      </Section>
-    </Layout>
-  );
-}
-
-function CollectionGrid() {
-  const {
-    language: { isoCode: languageCode },
-    country: { isoCode: countryCode },
-  } = useLocalization();
-
-  const { data } = useShopQuery<any>({
-    query: COLLECTIONS_QUERY,
-    variables: {
-      pageBy: PAGINATION_SIZE,
-      country: countryCode,
-      language: languageCode,
-    },
-    preload: true,
-  });
-
-  const collections: Collection[] = data.collections.nodes;
-
-  return (
-    <Grid items={collections.length === 3 ? 3 : 2}>
-      {collections.map((collection, i) => (
-        <CollectionCard
-          collection={collection}
-          key={collection.id}
-          loading={getImageLoadingPriority(i, 2)}
-        />
-      ))}
-    </Grid>
-  );
-}
+import type { Collection } from '@shopify/hydrogen/storefront-api-types';
 
 const COLLECTIONS_QUERY = gql`
   query Collections(
@@ -78,3 +32,50 @@ const COLLECTIONS_QUERY = gql`
     }
   }
 `;
+
+const CollectionGrid = () => {
+  const {
+    language: { isoCode: languageCode },
+    country: { isoCode: countryCode },
+  } = useLocalization();
+
+  const { data } = useShopQuery<any>({
+    query: COLLECTIONS_QUERY,
+    variables: {
+      pageBy: PAGINATION_SIZE,
+      country: countryCode,
+      language: languageCode,
+    },
+    preload: true,
+  });
+
+  const collections: Collection[] = data.collections.nodes;
+
+  return (
+    <Grid items={collections.length === 3 ? 3 : 2}>
+      {collections.map((collection, i) => (
+        <CollectionCard
+          collection={collection}
+          key={collection.id}
+          loading={getImageLoadingPriority(i, 2)}
+        />
+      ))}
+    </Grid>
+  );
+};
+
+const Collections = () => {
+  return (
+    <Layout>
+      <Seo type='page' data={{ title: 'All Collections' }} />
+      <PageHeader heading='Collections' />
+      <Section>
+        <Suspense>
+          <CollectionGrid />
+        </Suspense>
+      </Section>
+    </Layout>
+  );
+};
+
+export default Collections;

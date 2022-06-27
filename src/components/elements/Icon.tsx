@@ -1,16 +1,17 @@
 import clsx from 'clsx';
+import type { ComponentProps, FC } from 'react';
 
 type IconProps = JSX.IntrinsicElements['svg'] & {
   direction?: 'up' | 'right' | 'down' | 'left';
 };
 
-function Icon({
+const Icon: FC<IconProps> = ({
   children,
   className,
   fill = 'currentColor',
   stroke,
   ...props
-}: IconProps) {
+}) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -23,9 +24,9 @@ function Icon({
       {children}
     </svg>
   );
-}
+};
 
-export function AccountIcon(props: IconProps) {
+export const AccountIcon: FC<IconProps> = (props) => {
   return (
     <Icon {...props}>
       <title>Accounts</title>
@@ -36,9 +37,9 @@ export function AccountIcon(props: IconProps) {
       />
     </Icon>
   );
-}
+};
 
-export function IconMenu(props: IconProps) {
+export const IconMenu: FC<IconProps> = (props) => {
   return (
     <Icon {...props} stroke={props.stroke || 'currentColor'}>
       <title>Menu</title>
@@ -47,9 +48,9 @@ export function IconMenu(props: IconProps) {
       <line x1='3' y1='14.375' x2='17' y2='14.375' strokeWidth='1.25' />
     </Icon>
   );
-}
+};
 
-export function IconClose(props: IconProps) {
+export const IconClose: FC<IconProps> = (props) => {
   return (
     <Icon {...props} stroke={props.stroke || 'currentColor'}>
       <title>Close</title>
@@ -69,9 +70,9 @@ export function IconClose(props: IconProps) {
       />
     </Icon>
   );
-}
+};
 
-export function IconArrow({ direction = 'right' }: IconProps) {
+export const IconArrow: FC<IconProps> = ({ direction = 'right' }) => {
   let rotate;
 
   switch (direction) {
@@ -97,13 +98,13 @@ export function IconArrow({ direction = 'right' }: IconProps) {
       <path d='M7 3L14 10L7 17' strokeWidth='1.25' />
     </Icon>
   );
-}
+};
 
-export function IconCaret({
+export const IconCaret: FC<IconProps> = ({
   direction = 'down',
   stroke = 'currentColor',
   ...props
-}: IconProps) {
+}) => {
   let rotate;
 
   switch (direction) {
@@ -134,9 +135,9 @@ export function IconCaret({
       <path d='M14 8L10 12L6 8' strokeWidth='1.25' />
     </Icon>
   );
-}
+};
 
-export function IconSelect(props: IconProps) {
+export const IconSelect: FC<IconProps> = (props) => {
   return (
     <Icon {...props}>
       <title>Select</title>
@@ -144,9 +145,9 @@ export function IconSelect(props: IconProps) {
       <path d='M13 11.5L10 13.5L7 11.5' strokeWidth='1.25' />
     </Icon>
   );
-}
+};
 
-export function IconBag(props: IconProps) {
+export const IconBag: FC<IconProps> = (props) => {
   return (
     <Icon {...props}>
       <title>Bag</title>
@@ -156,9 +157,9 @@ export function IconBag(props: IconProps) {
       />
     </Icon>
   );
-}
+};
 
-export function IconAccount(props: IconProps) {
+export const IconAccount: FC<IconProps> = (props) => {
   return (
     <Icon {...props}>
       <title>Account</title>
@@ -168,18 +169,18 @@ export function IconAccount(props: IconProps) {
       />
     </Icon>
   );
-}
+};
 
-export function IconHelp(props: IconProps) {
+export const IconHelp: FC<IconProps> = (props) => {
   return (
     <Icon {...props}>
       <title>Help</title>
       <path d='M3.375 10a6.625 6.625 0 1 1 13.25 0 6.625 6.625 0 0 1-13.25 0ZM10 2.125a7.875 7.875 0 1 0 0 15.75 7.875 7.875 0 0 0 0-15.75Zm.699 10.507H9.236V14h1.463v-1.368ZM7.675 7.576A3.256 3.256 0 0 0 7.5 8.67h1.245c0-.496.105-.89.316-1.182.218-.299.553-.448 1.005-.448a1 1 0 0 1 .327.065c.124.044.24.113.35.208.108.095.2.223.272.383.08.154.12.34.12.558a1.3 1.3 0 0 1-.076.471c-.044.131-.11.252-.197.361-.08.102-.174.197-.283.285-.102.087-.212.182-.328.284a3.157 3.157 0 0 0-.382.383c-.102.124-.19.27-.262.438a2.476 2.476 0 0 0-.164.591 6.333 6.333 0 0 0-.043.81h1.179c0-.263.021-.485.065-.668a1.65 1.65 0 0 1 .207-.47c.088-.139.19-.263.306-.372.117-.11.244-.223.382-.34l.35-.306c.116-.11.218-.23.305-.361.095-.139.168-.3.219-.482.058-.19.087-.412.087-.667 0-.35-.062-.664-.186-.942a1.881 1.881 0 0 0-.513-.689 2.07 2.07 0 0 0-.753-.427A2.721 2.721 0 0 0 10.12 6c-.4 0-.764.066-1.092.197a2.36 2.36 0 0 0-.83.536c-.225.234-.4.515-.523.843Z' />
     </Icon>
   );
-}
+};
 
-export function IconSearch(props: IconProps) {
+export const IconSearch: FC<IconProps> = (props) => {
   return (
     <Icon {...props}>
       <title>Search</title>
@@ -189,12 +190,12 @@ export function IconSearch(props: IconProps) {
       />
     </Icon>
   );
-}
+};
 
-export function IconCheck({
+export const IconCheck: FC<ComponentProps<typeof Icon>> = ({
   stroke = 'currentColor',
   ...props
-}: React.ComponentProps<typeof Icon>) {
+}) => {
   return (
     <Icon {...props} fill='transparent' stroke={stroke}>
       <title>Check</title>
@@ -207,9 +208,9 @@ export function IconCheck({
       />
     </Icon>
   );
-}
+};
 
-export function IconRemove(props: IconProps) {
+export const IconRemove: FC<IconProps> = (props) => {
   return (
     <Icon {...props} fill='transparent' stroke={props.stroke || 'currentColor'}>
       <title>Remove</title>
@@ -233,4 +234,4 @@ export function IconRemove(props: IconProps) {
       />
     </Icon>
   );
-}
+};

@@ -1,5 +1,6 @@
-import { type HydrogenRouteProps } from '@shopify/hydrogen';
+import type { HydrogenRouteProps } from '@shopify/hydrogen';
 
-export default function Redirect({ response }: HydrogenRouteProps) {
-  return response.redirect('/products');
-}
+const Redirect = ({ response }: HydrogenRouteProps) =>
+  response.redirect('/products');
+
+export default Redirect;

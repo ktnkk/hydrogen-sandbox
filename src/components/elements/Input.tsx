@@ -1,24 +1,27 @@
 import clsx from 'clsx';
+import type { FC } from 'react';
 
-export function Input({
-  className = '',
-  type,
-  variant,
-  ...props
-}: {
+type IndexType = {
   className?: string;
   type?: string;
   variant: 'search' | 'minisearch';
   [key: string]: any;
-}) {
+};
+
+export const Input: FC<IndexType> = ({
+  className = '',
+  type,
+  variant,
+  ...props
+}) => {
   const variants = {
     search:
-      'bg-transparent px-0 py-2 text-heading w-full focus:ring-0 border-x-0 border-t-0 transition border-b-2 border-primary/10 focus:border-primary/90',
+      'py-2 px-0 w-full text-heading bg-transparent border-x-0 border-t-0 border-b-2 focus:ring-0 transition border-primary/10 focus:border-primary/90',
     minisearch:
-      'bg-transparent hidden md:inline-block text-left lg:text-right border-b transition border-transparent -mb-px border-x-0 border-t-0 appearance-none px-0 py-1 focus:ring-transparent placeholder:opacity-20 placeholder:text-inherit',
+      'hidden py-1 px-0 -mb-px text-left placeholder:text-inherit bg-transparent border-x-0 border-t-0 border-b border-transparent focus:ring-transparent placeholder:opacity-20 transition appearance-none md:inline-block lg:text-right',
   };
 
   const styles = clsx(variants[variant], className);
 
   return <input type={type} {...props} className={styles} />;
-}
+};

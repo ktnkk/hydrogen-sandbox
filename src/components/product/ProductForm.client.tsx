@@ -1,5 +1,3 @@
-import { useEffect, useCallback, useState } from 'react';
-
 import {
   useProductOptions,
   isBrowser,
@@ -9,10 +7,10 @@ import {
   OptionWithValues,
   ShopPayButton,
 } from '@shopify/hydrogen';
-
+import { useEffect, useCallback, useState } from 'react';
 import { Heading, Text, Button, ProductOptions } from '~/components';
 
-export function ProductForm() {
+export const ProductForm = () => {
   const { pathname, search } = useUrl();
   const [params, setParams] = useState(new URLSearchParams(search));
 
@@ -21,8 +19,8 @@ export function ProductForm() {
 
   const isOutOfStock = !selectedVariant?.availableForSale || false;
   const isOnSale =
-    selectedVariant?.priceV2?.amount <
-      selectedVariant?.compareAtPriceV2?.amount || false;
+    (selectedVariant?.priceV2?.amount as string) <
+      (selectedVariant?.compareAtPriceV2?.amount as string) || false;
 
   useEffect(() => {
     if (params || !search) return;
@@ -37,17 +35,17 @@ export function ProductForm() {
         const matchedValue = values.filter(
           (value) => encodeURIComponent(value.toLowerCase()) === currentValue,
         );
-        setSelectedOption(name, matchedValue[0]);
+        setSelectedOption(name, matchedValue[0]!);
       } else {
         params.set(
           encodeURIComponent(name.toLowerCase()),
           encodeURIComponent(selectedOptions![name]!.toLowerCase()),
-        ),
-          window.history.replaceState(
-            null,
-            '',
-            `${pathname}?${params.toString()}`,
-          );
+        );
+        window.history.replaceState(
+          null,
+          '',
+          `${pathname}?${params.toString()}`,
+        );
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,18 +75,16 @@ export function ProductForm() {
       {
         <div className='grid gap-4'>
           {(options as OptionWithValues[]).map(({ name, values }) => {
-            if (values.length === 1) {
-              return null;
-            }
+            if (values.length === 1) return null;
             return (
               <div
                 key={name}
-                className='flex flex-col flex-wrap mb-4 gap-y-2 last:mb-0'
+                className='flex flex-col flex-wrap gap-y-2 mb-4 last:mb-0'
               >
                 <Heading as='legend' size='lead' className='min-w-[4rem]'>
                   {name}
                 </Heading>
-                <div className='flex flex-wrap items-baseline gap-4'>
+                <div className='flex flex-wrap gap-4 items-baseline'>
                   <ProductOptions
                     name={name}
                     handleChange={handleChange}
@@ -100,7 +96,7 @@ export function ProductForm() {
           })}
         </div>
       }
-      <div className='grid items-stretch gap-4'>
+      <div className='grid gap-4 items-stretch'>
         <AddToCartButton
           variantId={selectedVariant?.id}
           quantity={1}
@@ -117,7 +113,7 @@ export function ProductForm() {
             ) : (
               <Text
                 as='span'
-                className='flex items-center justify-center gap-2'
+                className='flex gap-2 justify-center items-center'
               >
                 <span>Add to bag</span> <span>·</span>{' '}
                 <Money
@@ -141,4 +137,4 @@ export function ProductForm() {
       </div>
     </form>
   );
-}
+};

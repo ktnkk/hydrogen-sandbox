@@ -6,12 +6,41 @@ import {
   gql,
   Link,
 } from '@shopify/hydrogen';
-import type { Shop } from '@shopify/hydrogen/storefront-api-types';
-
 import { PageHeader, Section, Heading } from '~/components';
 import { Layout, NotFound } from '~/components/index.server';
+import type { Shop } from '@shopify/hydrogen/storefront-api-types';
 
-export default function Policies() {
+const POLICIES_QUERY = gql`
+  fragment Policy on ShopPolicy {
+    id
+    title
+    handle
+  }
+
+  query PoliciesQuery {
+    shop {
+      privacyPolicy {
+        ...Policy
+      }
+      shippingPolicy {
+        ...Policy
+      }
+      termsOfService {
+        ...Policy
+      }
+      refundPolicy {
+        ...Policy
+      }
+      subscriptionPolicy {
+        id
+        title
+        handle
+      }
+    }
+  }
+`;
+
+const Policies = () => {
   const {
     language: { isoCode: languageCode },
   } = useLocalization();
@@ -60,7 +89,7 @@ export default function Policies() {
             return;
           }
           return (
-            <Heading className='font-normal text-heading' key={policy.id}>
+            <Heading className='text-heading font-normal' key={policy.id}>
               <Link to={`/policies/${policy.handle}`}>{policy.title}</Link>
             </Heading>
           );
@@ -68,34 +97,6 @@ export default function Policies() {
       </Section>
     </Layout>
   );
-}
+};
 
-const POLICIES_QUERY = gql`
-  fragment Policy on ShopPolicy {
-    id
-    title
-    handle
-  }
-
-  query PoliciesQuery {
-    shop {
-      privacyPolicy {
-        ...Policy
-      }
-      shippingPolicy {
-        ...Policy
-      }
-      termsOfService {
-        ...Policy
-      }
-      refundPolicy {
-        ...Policy
-      }
-      subscriptionPolicy {
-        id
-        title
-        handle
-      }
-    }
-  }
-`;
+export default Policies;

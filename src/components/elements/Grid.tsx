@@ -1,6 +1,17 @@
 import clsx from 'clsx';
+import type { ElementType, FC } from 'react';
 
-export function Grid({
+type GridProps = {
+  as: ElementType;
+  className: string;
+  flow: 'row' | 'col';
+  gap: 'default' | 'blog';
+  items: number;
+  layout: 'default' | 'products' | 'auto' | 'blog';
+  [key: string]: any;
+};
+
+export const Grid: FC<Partial<GridProps>> = ({
   as: Component = 'div',
   className,
   flow = 'row',
@@ -8,15 +19,7 @@ export function Grid({
   items = 4,
   layout = 'default',
   ...props
-}: {
-  as?: React.ElementType;
-  className?: string;
-  flow?: 'row' | 'col';
-  gap?: 'default' | 'blog';
-  items?: number;
-  layout?: 'default' | 'products' | 'auto' | 'blog';
-  [key: string]: any;
-}) {
+}) => {
   const layouts = {
     default: `grid-cols-1 ${items === 2 && 'md:grid-cols-2'}  ${
       items === 3 && 'sm:grid-cols-3'
@@ -41,4 +44,4 @@ export function Grid({
   const styles = clsx(flows[flow], gaps[gap], layouts[layout], className);
 
   return <Component {...props} className={styles} />;
-}
+};

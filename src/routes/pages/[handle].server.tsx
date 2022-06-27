@@ -7,12 +7,26 @@ import {
   gql,
   type HydrogenRouteProps,
 } from '@shopify/hydrogen';
-import { Suspense } from 'react';
-
+import { FC, Suspense } from 'react';
 import { PageHeader } from '~/components';
 import { NotFound, Layout } from '~/components/index.server';
 
-export default function Page({ params }: HydrogenRouteProps) {
+const PAGE_QUERY = gql`
+  query PageDetails($languageCode: LanguageCode, $handle: String!)
+  @inContext(language: $languageCode) {
+    page(handle: $handle) {
+      id
+      title
+      body
+      seo {
+        description
+        title
+      }
+    }
+  }
+`;
+
+const Page: FC<HydrogenRouteProps> = ({ params }) => {
   const {
     language: { isoCode: languageCode },
   } = useLocalization();
@@ -25,9 +39,7 @@ export default function Page({ params }: HydrogenRouteProps) {
     variables: { languageCode, handle },
   });
 
-  if (!page) {
-    return <NotFound />;
-  }
+  if (!page) return <NotFound />;
 
   useServerAnalytics({
     shopify: {
@@ -49,19 +61,6 @@ export default function Page({ params }: HydrogenRouteProps) {
       </PageHeader>
     </Layout>
   );
-}
+};
 
-const PAGE_QUERY = gql`
-  query PageDetails($languageCode: LanguageCode, $handle: String!)
-  @inContext(language: $languageCode) {
-    page(handle: $handle) {
-      id
-      title
-      body
-      seo {
-        description
-        title
-      }
-    }
-  }
-`;
+export default Page;

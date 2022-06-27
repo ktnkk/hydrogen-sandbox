@@ -1,35 +1,27 @@
-import { useCallback, useState } from 'react';
 // @ts-expect-error @headlessui/react incompatibility with node16 resolution
 import { Listbox } from '@headlessui/react';
 import { useProductOptions } from '@shopify/hydrogen';
-
+import { ComponentProps, FC, useCallback, useState } from 'react';
 import { Text, IconCheck, IconCaret } from '~/components';
 
-export function ProductOptions({
-  values,
-  ...props
-}: {
-  values: any[];
-  [key: string]: any;
-} & React.ComponentProps<typeof OptionsGrid>) {
-  const asDropdown = values.length > 7;
-
-  return asDropdown ? (
-    <OptionsDropdown values={values} {...props} />
-  ) : (
-    <OptionsGrid values={values} {...props} />
-  );
-}
-
-function OptionsGrid({
-  values,
-  name,
-  handleChange,
-}: {
+type OptionsGridProps = {
   values: string[];
   name: string;
   handleChange: (name: string, value: string) => void;
-}) {
+};
+
+type OptionsDropdownProps = {
+  values: string[];
+  name: string;
+  handleChange: (name: string, value: string) => void;
+};
+
+type ProductOptionsProps = {
+  values: any[];
+  [key: string]: any;
+} & ComponentProps<typeof OptionsGrid>;
+
+const OptionsGrid: FC<OptionsGridProps> = ({ values, name, handleChange }) => {
   const { selectedOptions } = useProductOptions();
 
   return (
@@ -61,18 +53,14 @@ function OptionsGrid({
       })}
     </>
   );
-}
+};
 
 // TODO: De-dupe UI with CountrySelector
-function OptionsDropdown({
+const OptionsDropdown: FC<OptionsDropdownProps> = ({
   values,
   name,
   handleChange,
-}: {
-  values: string[];
-  name: string;
-  handleChange: (name: string, value: string) => void;
-}) {
+}) => {
   const [listboxOpen, setListboxOpen] = useState(false);
   const { selectedOptions } = useProductOptions();
 
@@ -138,4 +126,17 @@ function OptionsDropdown({
       </Listbox>
     </div>
   );
-}
+};
+
+export const ProductOptions: FC<ProductOptionsProps> = ({
+  values,
+  ...props
+}) => {
+  const asDropdown = values.length > 7;
+
+  return asDropdown ? (
+    <OptionsDropdown values={values} {...props} />
+  ) : (
+    <OptionsGrid values={values} {...props} />
+  );
+};

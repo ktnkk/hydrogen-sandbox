@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import {
   useShopQuery,
   CacheLong,
@@ -9,11 +8,35 @@ import {
   HydrogenRequest,
   HydrogenApiRouteOptions,
 } from '@shopify/hydrogen';
-
+import { FC, Suspense } from 'react';
 import { AccountLoginForm } from '~/components';
 import { Layout } from '~/components/index.server';
 
-export default function Login({ response }: HydrogenRouteProps) {
+const SHOP_QUERY = gql`
+  query shopInfo {
+    shop {
+      name
+    }
+  }
+`;
+
+const LOGIN_MUTATION = gql`
+  mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
+    customerAccessTokenCreate(input: $input) {
+      customerUserErrors {
+        code
+        field
+        message
+      }
+      customerAccessToken {
+        accessToken
+        expiresAt
+      }
+    }
+  }
+`;
+
+const Login: FC<HydrogenRouteProps> = ({ response }) => {
   response.cache(CacheNone());
 
   const {
@@ -34,23 +57,14 @@ export default function Login({ response }: HydrogenRouteProps) {
       <AccountLoginForm shopName={name} />
     </Layout>
   );
-}
+};
 
-const SHOP_QUERY = gql`
-  query shopInfo {
-    shop {
-      name
-    }
-  }
-`;
-
-export async function api(
+export const api = async (
   request: HydrogenRequest,
   { session, queryShop }: HydrogenApiRouteOptions,
-) {
-  if (!session) {
+) => {
+  if (!session)
     return new Response('Session storage not available.', { status: 400 });
-  }
 
   const jsonBody = await request.json();
 
@@ -95,20 +109,6 @@ export async function api(
       { status: 401 },
     );
   }
-}
+};
 
-const LOGIN_MUTATION = gql`
-  mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
-    customerAccessTokenCreate(input: $input) {
-      customerUserErrors {
-        code
-        field
-        message
-      }
-      customerAccessToken {
-        accessToken
-        expiresAt
-      }
-    }
-  }
-`;
+export default Login;

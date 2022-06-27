@@ -1,6 +1,5 @@
-import { Suspense } from 'react';
 import { useRouteParams, Seo } from '@shopify/hydrogen';
-
+import { Suspense } from 'react';
 import { AccountPasswordResetForm } from '~/components';
 import { Layout } from '~/components/index.server';
 
@@ -9,7 +8,7 @@ import { Layout } from '~/components/index.server';
  * It should only be accessed by a link emailed to the user after
  * they initiate a password reset from `/account/recover`.
  */
-export default function ResetPassword() {
+const ResetPassword = () => {
   const { id, resetToken } = useRouteParams();
 
   return (
@@ -17,7 +16,12 @@ export default function ResetPassword() {
       <Suspense>
         <Seo type='noindex' data={{ title: 'Reset password' }} />
       </Suspense>
-      <AccountPasswordResetForm id={id} resetToken={resetToken} />
+      <AccountPasswordResetForm
+        id={id as string}
+        resetToken={resetToken as string}
+      />
     </Layout>
   );
-}
+};
+
+export default ResetPassword;

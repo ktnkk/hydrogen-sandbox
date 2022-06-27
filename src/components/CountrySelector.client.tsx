@@ -1,19 +1,51 @@
-import { useCallback, useState, Suspense } from 'react';
-import { useLocalization, fetchSync } from '@shopify/hydrogen';
 // @ts-expect-error @headlessui/react incompatibility with node16 resolution
 import { Listbox } from '@headlessui/react';
-
-import { IconCheck, IconCaret } from '~/components';
+import { useLocalization, fetchSync } from '@shopify/hydrogen';
+import { useCallback, useState, Suspense } from 'react';
 import { useMemo } from 'react';
+import { IconCheck, IconCaret } from '~/components';
 import type {
   Country,
   CountryCode,
 } from '@shopify/hydrogen/storefront-api-types';
 
-/**
- * A client component that selects the appropriate country to display for products on a website
- */
-export function CountrySelector() {
+type CountriesProps = {
+  selectedCountry: Pick<Country, 'isoCode' | 'name'>;
+  getClassName: (active: boolean) => string;
+};
+
+export const Countries = ({
+  selectedCountry,
+  getClassName,
+}: CountriesProps) => {
+  const countries: Country[] = fetchSync('/api/countries').json();
+
+  return (countries || []).map((country) => {
+    const isSelected = country.isoCode === selectedCountry.isoCode;
+
+    return (
+      <Listbox.Option key={country.isoCode} value={country}>
+        {/* @ts-expect-error @headlessui/react incompatibility with node16 resolution */}
+        {({ active }) => (
+          <div
+            className={`text-contrast dark:text-primary ${getClassName(
+              active,
+            )}`}
+          >
+            {country.name}
+            {isSelected ? (
+              <span className='ml-2'>
+                <IconCheck />
+              </span>
+            ) : null}
+          </div>
+        )}
+      </Listbox.Option>
+    );
+  });
+};
+
+export const CountrySelector = () => {
   const [listboxOpen, setListboxOpen] = useState(false);
   const {
     country: { isoCode },
@@ -98,38 +130,4 @@ export function CountrySelector() {
       </Listbox>
     </div>
   );
-}
-
-export function Countries({
-  selectedCountry,
-  getClassName,
-}: {
-  selectedCountry: Pick<Country, 'isoCode' | 'name'>;
-  getClassName: (active: boolean) => string;
-}) {
-  const countries: Country[] = fetchSync('/api/countries').json();
-
-  return (countries || []).map((country) => {
-    const isSelected = country.isoCode === selectedCountry.isoCode;
-
-    return (
-      <Listbox.Option key={country.isoCode} value={country}>
-        {/* @ts-expect-error @headlessui/react incompatibility with node16 resolution */}
-        {({ active }) => (
-          <div
-            className={`text-contrast dark:text-primary ${getClassName(
-              active,
-            )}`}
-          >
-            {country.name}
-            {isSelected ? (
-              <span className='ml-2'>
-                <IconCheck />
-              </span>
-            ) : null}
-          </div>
-        )}
-      </Listbox.Option>
-    );
-  });
-}
+};

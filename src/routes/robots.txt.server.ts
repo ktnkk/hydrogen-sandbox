@@ -6,19 +6,7 @@
 
 import type { HydrogenRequest } from '@shopify/hydrogen';
 
-export async function api(request: HydrogenRequest) {
-  const url = new URL(request.url);
-
-  return new Response(robotsTxtData({ url: url.origin }), {
-    headers: {
-      'content-type': 'text/plain',
-      // Cache for 24 hours
-      'cache-control': `max-age=${60 * 60 * 24}`,
-    },
-  });
-}
-
-function robotsTxtData({ url }: { url: string }) {
+const robotsTxtData = ({ url }: { url: string }) => {
   const sitemapUrl = url ? `${url}/sitemap.xml` : undefined;
 
   return `
@@ -42,4 +30,16 @@ Disallow: /orders
 User-agent: Pinterest
 Crawl-delay: 1
 `.trim();
-}
+};
+
+export const api = async (request: HydrogenRequest) => {
+  const url = new URL(request.url);
+
+  return new Response(robotsTxtData({ url: url.origin }), {
+    headers: {
+      'content-type': 'text/plain',
+      // Cache for 24 hours
+      'cache-control': `max-age=${60 * 60 * 24}`,
+    },
+  });
+};

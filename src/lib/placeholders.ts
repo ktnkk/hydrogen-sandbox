@@ -172,57 +172,44 @@ const PLACEHOLDERS = {
   },
 };
 
-// Return placeholders for collection Heros when metafields are not set
-export function getHeroPlaceholder(heros: any[]) {
+export const getHeroPlaceholder = (heros: any[]) => {
   if (!heros?.length) return [];
 
-  // when we pass a collection without metafields,
-  // we merge it with placeholder data
   return heros.map((hero, index) => {
-    // assume passed hero has metafields data already
-    if (hero?.heading?.value) {
-      return hero;
-    }
+    if (hero?.heading?.value) return hero;
 
-    // hero placeholder
     const placeholder = PLACEHOLDERS.HEROS[index];
 
-    // prioritize metafield data if available, else the hero hero values
-    // otherwise the placeholder values
     const byLine =
       hero?.byLine || hero?.descriptionHtml
         ? { value: hero.descriptionHtml }
-        : placeholder.byline;
+        : placeholder?.byline;
 
     const heading =
       hero?.heading || hero?.title
         ? { value: hero.title }
-        : placeholder.heading;
+        : placeholder?.heading;
 
-    // merge hero placeholder with hero data
     return {
       heading,
       byLine,
-      cta: hero?.cta || placeholder.cta,
-      handle: hero?.handle || placeholder.handle,
+      cta: hero?.cta || placeholder!.cta,
+      handle: hero?.handle || placeholder!.handle,
       id: hero?.id || index,
-      spread: hero?.spread || placeholder.spread,
-      spreadSecondary: hero?.spreadSecondary || placeholder.spreadSecondary,
+      spread: hero?.spread || placeholder!.spread,
+      spreadSecondary: hero?.spreadSecondary || placeholder!.spreadSecondary,
       height: placeholder?.height || undefined,
       top: placeholder?.top || undefined,
     };
   });
-}
+};
 
-// get product info placeholder data
-export function getProductInfoPlaceholder() {
-  function getMultipleRandom(arr: any[], infos: number) {
+export const getProductInfoPlaceholder = () => {
+  const getMultipleRandom = (arr: any[], infos: number) => {
     const shuffled = [...arr].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, infos);
-  }
+  };
   return getMultipleRandom(PLACEHOLDERS.PRODUCT_INFO, 3);
-}
+};
 
-export function getProductPlaceholder() {
-  return PLACEHOLDERS.PRODUCT;
-}
+export const getProductPlaceholder = () => PLACEHOLDERS.PRODUCT;

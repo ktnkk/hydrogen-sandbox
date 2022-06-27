@@ -1,16 +1,43 @@
-import { useState } from 'react';
-import { useNavigate, Link } from '@shopify/hydrogen/client';
-
+import { useNavigate, Link } from '@shopify/hydrogen';
+import { FormEvent, useState } from 'react';
 import { emailValidation, passwordValidation } from '~/lib/utils';
-
 import { callLoginApi } from './AccountLoginForm.client';
 
-interface FormElements {
-  email: HTMLInputElement;
-  password: HTMLInputElement;
-}
+type CallAccountCreateApiProps = {
+  email: string;
+  password: string;
+  firstName?: string;
+  lastName?: string;
+};
 
-export function AccountCreateForm() {
+export const callAccountCreateApi = async ({
+  email,
+  password,
+  firstName,
+  lastName,
+}: CallAccountCreateApiProps) => {
+  try {
+    const res = await fetch(`/account/register`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password, firstName, lastName }),
+    });
+    if (res.status === 200) {
+      return {};
+    } else {
+      return res.json();
+    }
+  } catch (error: any) {
+    return {
+      error: error.toString(),
+    };
+  }
+};
+
+export const AccountCreateForm = () => {
   const navigate = useNavigate();
 
   const [submitError, setSubmitError] = useState<null | string>(null);
@@ -19,9 +46,11 @@ export function AccountCreateForm() {
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState<null | string>(null);
 
-  async function onSubmit(
-    event: React.FormEvent<HTMLFormElement & FormElements>,
-  ) {
+  const onSubmit = async (
+    event: FormEvent<
+      HTMLFormElement & Record<'email' | 'password', HTMLInputElement>
+    >,
+  ) => {
     event.preventDefault();
 
     setEmailError(null);
@@ -29,18 +58,12 @@ export function AccountCreateForm() {
     setSubmitError(null);
 
     const newEmailError = emailValidation(event.currentTarget.email);
-    if (newEmailError) {
-      setEmailError(newEmailError);
-    }
+    if (newEmailError) setEmailError(newEmailError);
 
     const newPasswordError = passwordValidation(event.currentTarget.password);
-    if (newPasswordError) {
-      setPasswordError(newPasswordError);
-    }
+    if (newPasswordError) setPasswordError(newPasswordError);
 
-    if (newEmailError || newPasswordError) {
-      return;
-    }
+    if (newEmailError || newPasswordError) return;
 
     const accountCreateResponse = await callAccountCreateApi({
       email,
@@ -52,22 +75,21 @@ export function AccountCreateForm() {
       return;
     }
 
-    // this can be avoided if customerCreate mutation returns customerAccessToken
     await callLoginApi({
       email,
       password,
     });
 
     navigate('/account');
-  }
+  };
 
   return (
-    <div className='flex justify-center my-24 px-4'>
-      <div className='max-w-md w-full'>
+    <div className='flex justify-center px-4 my-24'>
+      <div className='w-full max-w-md'>
         <h1 className='text-4xl'>Create an Account.</h1>
-        <form noValidate className='pt-6 pb-8 mt-4 mb-4' onSubmit={onSubmit}>
+        <form noValidate className='pt-6 pb-8 my-4' onSubmit={onSubmit}>
           {submitError && (
-            <div className='flex items-center justify-center mb-6 bg-zinc-500'>
+            <div className='flex justify-center items-center mb-6 bg-zinc-500'>
               <p className='m-4 text-s text-contrast'>{submitError}</p>
             </div>
           )}
@@ -86,9 +108,7 @@ export function AccountCreateForm() {
               // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
               value={email}
-              onChange={(event) => {
-                setEmail(event.target.value);
-              }}
+              onChange={(event) => setEmail(event.target.value)}
             />
             {!emailError ? (
               ''
@@ -110,9 +130,7 @@ export function AccountCreateForm() {
               value={password}
               minLength={8}
               required
-              onChange={(event) => {
-                setPassword(event.target.value);
-              }}
+              onChange={(event) => setPassword(event.target.value)}
             />
             {!passwordError ? (
               ''
@@ -120,16 +138,16 @@ export function AccountCreateForm() {
               <p className={`text-red-500 text-xs`}>{passwordError} &nbsp;</p>
             )}
           </div>
-          <div className='flex items-center justify-between'>
+          <div className='flex justify-between items-center'>
             <button
-              className='bg-gray-900 text-contrast rounded py-2 px-4 focus:shadow-outline block w-full'
+              className='block py-2 px-4 w-full bg-gray-900 rounded text-contrast focus:shadow-outline'
               type='submit'
             >
               Create Account
             </button>
           </div>
           <div className='flex items-center mt-4'>
-            <p className='align-baseline text-sm'>
+            <p className='text-sm align-baseline'>
               Already have an account? &nbsp;
               <Link className='inline underline' to='/account'>
                 Sign in
@@ -140,36 +158,4 @@ export function AccountCreateForm() {
       </div>
     </div>
   );
-}
-
-export async function callAccountCreateApi({
-  email,
-  password,
-  firstName,
-  lastName,
-}: {
-  email: string;
-  password: string;
-  firstName?: string;
-  lastName?: string;
-}) {
-  try {
-    const res = await fetch(`/account/register`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password, firstName, lastName }),
-    });
-    if (res.status === 200) {
-      return {};
-    } else {
-      return res.json();
-    }
-  } catch (error: any) {
-    return {
-      error: error.toString(),
-    };
-  }
-}
+};

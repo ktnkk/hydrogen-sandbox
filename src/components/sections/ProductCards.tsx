@@ -1,16 +1,16 @@
-import { Product } from '@shopify/hydrogen/storefront-api-types';
-import { ProductCard } from '../cards/ProductCard.client';
+import { ProductCard } from '~/components';
+import type { Product } from '@shopify/hydrogen/storefront-api-types';
 
-export function ProductCards({ products }: { products: Product[] }) {
+export const ProductCards = ({ products }: { products: Product[] }) => {
   return (
     <>
       {products.map((product) => (
         <ProductCard
           product={product}
           key={product.id}
-          className={'snap-start w-80'}
+          className={'w-80 snap-start'}
         />
       ))}
     </>
   );
-}
+};

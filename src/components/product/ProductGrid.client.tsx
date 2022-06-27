@@ -1,6 +1,5 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link, flattenConnection } from '@shopify/hydrogen';
-
+import { useState, useRef, useEffect, useCallback, FC } from 'react';
 import { Button, Grid, ProductCard } from '~/components';
 import { getImageLoadingPriority } from '~/lib/const';
 import type {
@@ -8,13 +7,12 @@ import type {
   Product,
 } from '@shopify/hydrogen/storefront-api-types';
 
-export function ProductGrid({
-  url,
-  collection,
-}: {
+type ProductGridProps = {
   url: string;
   collection: Collection;
-}) {
+};
+
+export const ProductGrid: FC<ProductGridProps> = ({ url, collection }) => {
   const nextButtonRef = useRef(null);
   const initialProducts = collection?.products?.nodes || [];
   const { hasNextPage, endCursor } = collection?.products?.pageInfo ?? {};
@@ -51,9 +49,7 @@ export function ProductGrid({
   const handleIntersect = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          fetchProducts();
-        }
+        if (entry.isIntersecting) fetchProducts();
       });
     },
     [fetchProducts],
@@ -98,7 +94,7 @@ export function ProductGrid({
 
       {nextPage && (
         <div
-          className='flex items-center justify-center mt-6'
+          className='flex justify-center items-center mt-6'
           ref={nextButtonRef}
         >
           <Button
@@ -113,4 +109,4 @@ export function ProductGrid({
       )}
     </>
   );
-}
+};

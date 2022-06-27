@@ -1,8 +1,15 @@
-import { Fragment, useState } from 'react';
 // @ts-expect-error @headlessui/react incompatibility with node16 resolution
 import { Dialog, Transition } from '@headlessui/react';
-
+import { Fragment, ReactNode, useState } from 'react';
 import { Heading, IconClose } from '~/components';
+
+type DrawerProps = {
+  heading?: string;
+  open: boolean;
+  onClose: () => void;
+  openFrom: 'right' | 'left';
+  children: ReactNode;
+};
 
 /**
  * Drawer component that opens on user click.
@@ -12,19 +19,13 @@ import { Heading, IconClose } from '~/components';
  * @param openFrom - right, left
  * @param children - react children node.
  */
-function Drawer({
+export const Drawer = ({
   heading,
   open,
   onClose,
   openFrom = 'right',
   children,
-}: {
-  heading?: string;
-  open: boolean;
-  onClose: () => void;
-  openFrom: 'right' | 'left';
-  children: React.ReactNode;
-}) {
+}: DrawerProps) => {
   const offScreen = {
     right: 'translate-x-full',
     left: '-translate-x-full',
@@ -42,11 +43,11 @@ function Drawer({
           leaveFrom='opacity-100'
           leaveTo='opacity-0'
         >
-          <div className='fixed inset-0 bg-black bg-opacity-25' />
+          <div className='fixed inset-0 bg-black bg-opacity/25' />
         </Transition.Child>
 
         <div className='fixed inset-0'>
-          <div className='absolute inset-0 overflow-hidden'>
+          <div className='overflow-hidden absolute inset-0'>
             <div
               className={`fixed inset-y-0 flex max-w-full ${
                 openFrom === 'right' ? 'right-0' : ''
@@ -61,7 +62,7 @@ function Drawer({
                 leaveFrom='translate-x-0'
                 leaveTo={offScreen[openFrom]}
               >
-                <Dialog.Panel className='w-screen h-screen max-w-lg text-left align-middle transition-all transform shadow-xl bg-contrast'>
+                <Dialog.Panel className='w-screen max-w-lg h-screen text-left align-middle shadow-xl transition-all bg-contrast'>
                   <header
                     className={`sticky top-0 flex items-center px-6 h-nav sm:px-8 md:px-12 ${
                       heading ? 'justify-between' : 'justify-end'
@@ -91,27 +92,18 @@ function Drawer({
       </Dialog>
     </Transition>
   );
-}
+};
 
-/* Use for associating arialabelledby with the title*/
 Drawer.Title = Dialog.Title;
 
-export { Drawer };
-
-export function useDrawer(openDefault = false) {
+export const useDrawer = (openDefault = false) => {
   const [isOpen, setIsOpen] = useState(openDefault);
-
-  function openDrawer() {
-    setIsOpen(true);
-  }
-
-  function closeDrawer() {
-    setIsOpen(false);
-  }
+  const openDrawer = () => setIsOpen(true);
+  const closeDrawer = () => setIsOpen(false);
 
   return {
     isOpen,
     openDrawer,
     closeDrawer,
   };
-}
+};

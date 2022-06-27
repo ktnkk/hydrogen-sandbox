@@ -1,20 +1,23 @@
 import { Image, Link } from '@shopify/hydrogen';
 import type { Article } from '@shopify/hydrogen/storefront-api-types';
+import type { FC } from 'react';
 
-export function ArticleCard({
-  blogHandle,
-  article,
-  loading,
-}: {
+type ArticleCardProps = {
   blogHandle: string;
   article: Article;
   loading?: HTMLImageElement['loading'];
-}) {
+};
+
+export const ArticleCard: FC<ArticleCardProps> = ({
+  blogHandle,
+  article,
+  loading,
+}) => {
   return (
     <li key={article.id}>
       <Link to={`/${blogHandle}/${article.handle}`}>
         {article.image && (
-          <div className='card-image aspect-[3/2]'>
+          <div className='aspect-[3/2] card-image'>
             <Image
               alt={article.image.altText || article.title}
               className='object-cover w-full'
@@ -35,4 +38,4 @@ export function ArticleCard({
       </Link>
     </li>
   );
-}
+};

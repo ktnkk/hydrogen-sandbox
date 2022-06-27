@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import {
   flattenConnection,
   Image,
@@ -6,30 +5,52 @@ import {
   Money,
   useMoney,
 } from '@shopify/hydrogen';
-
+import clsx from 'clsx';
 import { Text } from '~/components';
-import { isDiscounted, isNewArrival } from '~/lib/utils';
 import { getProductPlaceholder } from '~/lib/placeholders';
+import { isDiscounted, isNewArrival } from '~/lib/utils';
 import type {
   MoneyV2,
   Product,
   ProductVariant,
   ProductVariantConnection,
 } from '@shopify/hydrogen/storefront-api-types';
+import type { FC } from 'react';
 
-export function ProductCard({
-  product,
-  label,
-  className,
-  loading,
-  onClick,
-}: {
+type CompareAtPriceProps = {
+  data: MoneyV2;
+  className?: string;
+};
+
+type ProductCardProps = {
   product: Product;
   label?: string;
   className?: string;
   loading?: HTMLImageElement['loading'];
   onClick?: () => void;
-}) {
+};
+
+const CompareAtPrice: FC<CompareAtPriceProps> = ({ data, className }) => {
+  const { currencyNarrowSymbol, withoutTrailingZerosAndCurrency } =
+    useMoney(data);
+
+  const styles = clsx('strike', className);
+
+  return (
+    <span className={styles}>
+      {currencyNarrowSymbol}
+      {withoutTrailingZerosAndCurrency}
+    </span>
+  );
+};
+
+export const ProductCard: FC<ProductCardProps> = ({
+  product,
+  label,
+  className,
+  loading,
+  onClick,
+}) => {
   let cardLabel;
 
   const cardData = product?.variants ? product : getProductPlaceholder();
@@ -55,7 +76,7 @@ export function ProductCard({
   return (
     <Link onClick={onClick} to={`/products/${product.handle}`}>
       <div className={styles}>
-        <div className='card-image aspect-[4/5] bg-primary/5'>
+        <div className='aspect-[4/5] card-image bg-primary/5'>
           <Text
             as='label'
             size='fine'
@@ -65,7 +86,7 @@ export function ProductCard({
           </Text>
           {image && (
             <Image
-              className='aspect-[4/5] w-full object-cover fadeIn'
+              className='aspect-[4/5] object-cover w-full fadeIn'
               widths={[320]}
               sizes='320px'
               loaderOptions={{
@@ -83,7 +104,7 @@ export function ProductCard({
         </div>
         <div className='grid gap-1'>
           <Text
-            className='w-full overflow-hidden whitespace-nowrap text-ellipsis '
+            className='overflow-hidden w-full text-ellipsis whitespace-nowrap '
             as='h3'
           >
             {product.title}
@@ -103,24 +124,4 @@ export function ProductCard({
       </div>
     </Link>
   );
-}
-
-function CompareAtPrice({
-  data,
-  className,
-}: {
-  data: MoneyV2;
-  className?: string;
-}) {
-  const { currencyNarrowSymbol, withoutTrailingZerosAndCurrency } =
-    useMoney(data);
-
-  const styles = clsx('strike', className);
-
-  return (
-    <span className={styles}>
-      {currencyNarrowSymbol}
-      {withoutTrailingZerosAndCurrency}
-    </span>
-  );
-}
+};

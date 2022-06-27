@@ -1,9 +1,15 @@
 import { CacheLong, gql, Seo, useShopQuery } from '@shopify/hydrogen';
 
-/**
- * A server component that fetches a `shop.name` and sets default values and templates for every page on a website
- */
-export function DefaultSeo() {
+const SHOP_QUERY = gql`
+  query shopInfo {
+    shop {
+      name
+      description
+    }
+  }
+`;
+
+export const DefaultSeo = () => {
   const {
     data: {
       shop: { name, description },
@@ -25,13 +31,4 @@ export function DefaultSeo() {
       }}
     />
   );
-}
-
-const SHOP_QUERY = gql`
-  query shopInfo {
-    shop {
-      name
-      description
-    }
-  }
-`;
+};

@@ -1,28 +1,57 @@
-import { useRef } from 'react';
-import { useScroll } from 'react-use';
 import {
   useCart,
   CartLineProvider,
   CartShopPayButton,
   Money,
 } from '@shopify/hydrogen';
-
+import { FC, useRef } from 'react';
+import { useScroll } from 'react-use';
 import { Button, Text, CartLineItem, CartEmpty } from '~/components';
 
-export function CartDetails({
-  layout,
-  onClose,
-}: {
+type CartDetailsProps = {
   layout: 'drawer' | 'page';
   onClose?: () => void;
-}) {
+};
+
+const CartCheckoutActions = () => {
+  const { checkoutUrl } = useCart();
+  return (
+    <>
+      <div className='grid gap-4'>
+        <Button to={checkoutUrl}>Continue to Checkout</Button>
+        <CartShopPayButton />
+      </div>
+    </>
+  );
+};
+
+const OrderSummary = () => {
+  const { cost } = useCart();
+  return (
+    <>
+      <dl className='grid'>
+        <div className='flex justify-between items-center font-medium'>
+          <Text as='dt'>Subtotal</Text>
+          <Text as='dd'>
+            {cost?.subtotalAmount?.amount ? (
+              <Money data={cost?.subtotalAmount} />
+            ) : (
+              '-'
+            )}
+          </Text>
+        </div>
+      </dl>
+    </>
+  );
+};
+
+export const CartDetails: FC<CartDetailsProps> = ({ layout, onClose }) => {
   const { lines } = useCart();
   const scrollRef = useRef(null);
   const { y } = useScroll(scrollRef);
 
-  if (lines.length === 0) {
+  if (lines.length === 0)
     return <CartEmpty onClose={onClose} layout={layout} />;
-  }
 
   const container = {
     drawer: 'grid grid-cols-1 h-screen-no-nav grid-rows-[1fr_auto]',
@@ -65,36 +94,4 @@ export function CartDetails({
       </section>
     </form>
   );
-}
-
-function CartCheckoutActions() {
-  const { checkoutUrl } = useCart();
-  return (
-    <>
-      <div className='grid gap-4'>
-        <Button to={checkoutUrl}>Continue to Checkout</Button>
-        <CartShopPayButton />
-      </div>
-    </>
-  );
-}
-
-function OrderSummary() {
-  const { cost } = useCart();
-  return (
-    <>
-      <dl className='grid'>
-        <div className='flex items-center justify-between font-medium'>
-          <Text as='dt'>Subtotal</Text>
-          <Text as='dd'>
-            {cost?.subtotalAmount?.amount ? (
-              <Money data={cost?.subtotalAmount} />
-            ) : (
-              '-'
-            )}
-          </Text>
-        </div>
-      </dl>
-    </>
-  );
-}
+};

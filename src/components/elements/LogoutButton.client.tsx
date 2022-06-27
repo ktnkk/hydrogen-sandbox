@@ -1,13 +1,13 @@
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  onClick?: () => void;
-}
+import type { ButtonHTMLAttributes, FC } from 'react';
 
-export function LogoutButton(props: ButtonProps) {
+type ButtonProps = {
+  onClick?: () => void;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+export const LogoutButton: FC<ButtonProps> = ({ onClick, ...props }) => {
   const logout = () => {
     fetch('/account/logout', { method: 'POST' }).then(() => {
-      if (typeof props?.onClick === 'function') {
-        props.onClick();
-      }
+      if (typeof onClick === 'function') onClick();
       window.location.href = '/';
     });
   };
@@ -17,4 +17,4 @@ export function LogoutButton(props: ButtonProps) {
       Logout
     </button>
   );
-}
+};

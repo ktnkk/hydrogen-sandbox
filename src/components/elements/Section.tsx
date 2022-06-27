@@ -1,9 +1,20 @@
 import clsx from 'clsx';
-
 import { Heading } from '~/components';
 import { missingClass } from '~/lib/utils';
+import type { ElementType, FC, ReactNode } from 'react';
 
-export function Section({
+type SectionProps = {
+  as: ElementType;
+  children: ReactNode;
+  className: string;
+  divider: 'none' | 'top' | 'bottom' | 'both';
+  display: 'grid' | 'flex';
+  heading: string;
+  padding: 'x' | 'y' | 'swimlane' | 'all';
+  [key: string]: any;
+};
+
+export const Section: FC<Partial<SectionProps>> = ({
   as: Component = 'section',
   children,
   className,
@@ -12,16 +23,7 @@ export function Section({
   heading,
   padding = 'all',
   ...props
-}: {
-  as?: React.ElementType;
-  children?: React.ReactNode;
-  className?: string;
-  divider?: 'none' | 'top' | 'bottom' | 'both';
-  display?: 'grid' | 'flex';
-  heading?: string;
-  padding?: 'x' | 'y' | 'swimlane' | 'all';
-  [key: string]: any;
-}) {
+}) => {
   const paddings = {
     x: 'px-6 md:px-8 lg:px-12',
     y: 'py-6 md:py-8 lg:py-12',
@@ -42,7 +44,7 @@ export function Section({
   };
 
   const styles = clsx(
-    'w-full gap-4 md:gap-8',
+    'gap-4 w-full md:gap-8',
     displays[display],
     missingClass(className, '\\mp[xy]?-') && paddings[padding],
     dividers[divider],
@@ -59,4 +61,4 @@ export function Section({
       {children}
     </Component>
   );
-}
+};

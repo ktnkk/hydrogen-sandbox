@@ -1,28 +1,10 @@
 import { gql } from '@shopify/hydrogen';
+import { PRODUCT_CARD_FRAGMENT } from '~/lib/fragments';
 import type {
   HydrogenApiRouteOptions,
   HydrogenRequest,
 } from '@shopify/hydrogen';
-import { ProductConnection } from '@shopify/hydrogen/storefront-api-types';
-import { PRODUCT_CARD_FRAGMENT } from '~/lib/fragments';
-
-export async function api(
-  _request: HydrogenRequest,
-  { queryShop }: HydrogenApiRouteOptions,
-) {
-  const {
-    data: { products },
-  } = await queryShop<{
-    products: ProductConnection;
-  }>({
-    query: TOP_PRODUCTS_QUERY,
-    variables: {
-      count: 4,
-    },
-  });
-
-  return products.nodes;
-}
+import type { ProductConnection } from '@shopify/hydrogen/storefront-api-types';
 
 const TOP_PRODUCTS_QUERY = gql`
   ${PRODUCT_CARD_FRAGMENT}
@@ -38,3 +20,21 @@ const TOP_PRODUCTS_QUERY = gql`
     }
   }
 `;
+
+export const api = async (
+  _request: HydrogenRequest,
+  { queryShop }: HydrogenApiRouteOptions,
+) => {
+  const {
+    data: { products },
+  } = await queryShop<{
+    products: ProductConnection;
+  }>({
+    query: TOP_PRODUCTS_QUERY,
+    variables: {
+      count: 4,
+    },
+  });
+
+  return products.nodes;
+};

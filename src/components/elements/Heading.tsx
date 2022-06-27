@@ -1,8 +1,16 @@
 import clsx from 'clsx';
-
 import { missingClass, formatText } from '~/lib/utils';
+import type { ElementType, FC, HTMLAttributes, ReactNode } from 'react';
 
-export function Heading({
+type HeadingProps = {
+  as?: ElementType;
+  children: ReactNode;
+  format?: boolean;
+  size?: 'display' | 'heading' | 'lead' | 'copy';
+  width?: 'default' | 'narrow' | 'wide';
+} & HTMLAttributes<HTMLHeadingElement>;
+
+export const Heading: FC<HeadingProps> = ({
   as: Component = 'h2',
   children,
   className = '',
@@ -10,13 +18,7 @@ export function Heading({
   size = 'heading',
   width = 'default',
   ...props
-}: {
-  as?: React.ElementType;
-  children: React.ReactNode;
-  format?: boolean;
-  size?: 'display' | 'heading' | 'lead' | 'copy';
-  width?: 'default' | 'narrow' | 'wide';
-} & React.HTMLAttributes<HTMLHeadingElement>) {
+}) => {
   const sizes = {
     display: 'font-bold text-display',
     heading: 'font-bold text-heading',
@@ -42,4 +44,4 @@ export function Heading({
       {format ? formatText(children) : children}
     </Component>
   );
-}
+};

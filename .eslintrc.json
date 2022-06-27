@@ -1,8 +1,68 @@
 {
-  "extends": ["plugin:hydrogen/recommended", "plugin:hydrogen/typescript"],
+  "root": true,
+  "extends": [
+    "plugin:hydrogen/recommended",
+    "plugin:hydrogen/typescript",
+    "prettier",
+    "plugin:tailwindcss/recommended"
+  ],
+  "plugins": ["import", "unused-imports", "tailwindcss"],
   "rules": {
     "node/no-missing-import": 0,
     "@typescript-eslint/ban-ts-comment": 0,
-    "@typescript-eslint/naming-convention": 0
+    "@typescript-eslint/naming-convention": 0,
+    "@typescript-eslint/no-unused-vars": 0,
+    "@typescript-eslint/no-use-before-define": [2],
+    "react/prop-types": 0,
+    "react/no-danger": 0,
+    "react/require-default-props": 0,
+    "react/jsx-props-no-spreading": 0,
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "import/prefer-default-export": 0,
+    "import/no-extraneous-dependencies": [
+      2,
+      {
+        "devDependencies": [".storybook/**", "**/*.stories.tsx"]
+      }
+    ],
+    "import/order": [
+      2,
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          ["parent", "sibling"],
+          "object",
+          "type",
+          "index"
+        ],
+        "newlines-between": "never",
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
+        "pathGroups": [
+          {
+            "pattern": "~/**",
+            "group": "internal",
+            "position": "before"
+          }
+        ]
+      }
+    ],
+    "unused-imports/no-unused-imports": 2,
+    "no-use-before-define": 0,
+    "no-nested-ternary": 0,
+    "tailwindcss/classnames-order": 1,
+    "tailwindcss/no-custom-classname": 0,
+    "tailwindcss/no-contradicting-classname": 2
   }
 }

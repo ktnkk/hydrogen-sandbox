@@ -1,20 +1,22 @@
 // @ts-expect-error @headlessui/react incompatibility with node16 resolution
 import { Disclosure } from '@headlessui/react';
 import { Link } from '@shopify/hydrogen';
-
 import { Text, IconClose } from '~/components';
+import type { FC } from 'react';
 
-export function ProductDetail({
-  title,
-  content,
-  learnMore,
-}: {
+type ProductDetailProps = {
   title: string;
   content: string;
   learnMore?: string;
-}) {
+};
+
+export const ProductDetail: FC<ProductDetailProps> = ({
+  title,
+  content,
+  learnMore,
+}) => {
   return (
-    <Disclosure key={title} as='div' className='grid w-full gap-2'>
+    <Disclosure key={title} as='div' className='grid gap-2 w-full'>
       {/* @ts-expect-error @headlessui/react incompatibility with node16 resolution */}
       {({ open }) => (
         <>
@@ -31,7 +33,7 @@ export function ProductDetail({
             </div>
           </Disclosure.Button>
 
-          <Disclosure.Panel className={'pb-4 pt-2 grid gap-2'}>
+          <Disclosure.Panel className={'grid gap-2 pt-2 pb-4'}>
             <div
               className='prose dark:prose-invert'
               dangerouslySetInnerHTML={{ __html: content }}
@@ -51,4 +53,4 @@ export function ProductDetail({
       )}
     </Disclosure>
   );
-}
+};

@@ -1,16 +1,76 @@
-import { useState, useMemo, MouseEventHandler } from 'react';
+import { useState, useMemo, MouseEventHandler, FC } from 'react';
+import {
+  Text,
+  Button,
+  Modal,
+  AccountDeleteAddress,
+  AccountAddressEdit,
+} from '~/components';
 
-import { Text, Button } from '~/components/elements';
-import { Modal } from '../index';
-import { AccountAddressEdit, AccountDeleteAddress } from '../index';
+type AddressProps = {
+  address: any;
+  defaultAddress?: boolean;
+  editAddress: (address: any) => void;
+  setDeletingAddress: MouseEventHandler<HTMLButtonElement>;
+};
 
-export function AccountAddressBook({
-  addresses,
-  defaultAddress,
-}: {
+type AccountAddressBookProps = {
   addresses: any[];
   defaultAddress: any;
-}) {
+};
+
+const Address: FC<AddressProps> = ({
+  address,
+  defaultAddress,
+  editAddress,
+  setDeletingAddress,
+}) => {
+  return (
+    <div className='flex flex-col p-6 rounded border border-gray-200 lg:p-8'>
+      {defaultAddress ? (
+        <div className='flex flex-row mb-3'>
+          <span className='py-1 px-3 text-xs font-medium rounded-full bg-primary/20 text-primary/50'>
+            Default
+          </span>
+        </div>
+      ) : null}
+      <ul className='flex-row flex-1'>
+        {address.firstName || address.lastName ? (
+          <li>
+            {(address.firstName && address.firstName + ' ') + address.lastName}
+          </li>
+        ) : (
+          <></>
+        )}
+        {address.formatted ? (
+          address.formatted.map((line: string) => <li key={line}>{line}</li>)
+        ) : (
+          <></>
+        )}
+      </ul>
+
+      <div className='flex flex-row mt-6 font-medium'>
+        <button
+          onClick={() => editAddress(address)}
+          className='text-sm text-left underline'
+        >
+          Edit
+        </button>
+        <button
+          onClick={setDeletingAddress}
+          className='ml-6 text-sm text-left text-primary/50'
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export const AccountAddressBook: FC<AccountAddressBookProps> = ({
+  addresses,
+  defaultAddress,
+}) => {
   const [editingAddress, setEditingAddress] = useState(null);
   const [deletingAddress, setDeletingAddress] = useState(null);
 
@@ -27,14 +87,12 @@ export function AccountAddressBook({
     };
   }, [addresses, defaultAddress]);
 
-  function close() {
+  const close = () => {
     setEditingAddress(null);
     setDeletingAddress(null);
-  }
+  };
 
-  function editAddress(address: any) {
-    setEditingAddress(address);
-  }
+  const editAddress = (address: any) => setEditingAddress(address);
 
   return (
     <>
@@ -52,8 +110,8 @@ export function AccountAddressBook({
           />
         </Modal>
       ) : null}
-      <div className='grid w-full gap-4 p-4 py-6 md:gap-8 md:p-8 lg:p-12'>
-        <h3 className='font-bold text-lead'>Address Book</h3>
+      <div className='grid gap-4 p-4 py-6 w-full md:gap-8 md:p-8 lg:p-12'>
+        <h3 className='text-lead font-bold'>Address Book</h3>
         <div>
           {!addresses?.length ? (
             <Text className='mb-1' width='narrow' as='p' size='copy'>
@@ -62,19 +120,15 @@ export function AccountAddressBook({
           ) : null}
           <div className='w-48'>
             <Button
-              className='mt-2 text-sm w-full mb-6'
-              onClick={() => {
-                editAddress({
-                  /** empty address */
-                });
-              }}
+              className='mt-2 mb-6 w-full text-sm'
+              onClick={() => editAddress({})}
               variant='secondary'
             >
               Add an Address
             </Button>
           </div>
           {addresses?.length ? (
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+            <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3'>
               {fullDefaultAddress ? (
                 <Address
                   address={fullDefaultAddress}
@@ -103,59 +157,4 @@ export function AccountAddressBook({
       </div>
     </>
   );
-}
-
-function Address({
-  address,
-  defaultAddress,
-  editAddress,
-  setDeletingAddress,
-}: {
-  address: any;
-  defaultAddress?: boolean;
-  editAddress: (address: any) => void;
-  setDeletingAddress: MouseEventHandler<HTMLButtonElement>;
-}) {
-  return (
-    <div className='lg:p-8 p-6 border border-gray-200 rounded flex flex-col'>
-      {defaultAddress ? (
-        <div className='mb-3 flex flex-row'>
-          <span className='px-3 py-1 text-xs font-medium rounded-full bg-primary/20 text-primary/50'>
-            Default
-          </span>
-        </div>
-      ) : null}
-      <ul className='flex-1 flex-row'>
-        {address.firstName || address.lastName ? (
-          <li>
-            {(address.firstName && address.firstName + ' ') + address.lastName}
-          </li>
-        ) : (
-          <></>
-        )}
-        {address.formatted ? (
-          address.formatted.map((line: string) => <li key={line}>{line}</li>)
-        ) : (
-          <></>
-        )}
-      </ul>
-
-      <div className='flex flex-row font-medium mt-6'>
-        <button
-          onClick={() => {
-            editAddress(address);
-          }}
-          className='text-left underline text-sm'
-        >
-          Edit
-        </button>
-        <button
-          onClick={setDeletingAddress}
-          className='text-left text-primary/50 ml-6 text-sm'
-        >
-          Remove
-        </button>
-      </div>
-    </div>
-  );
-}
+};

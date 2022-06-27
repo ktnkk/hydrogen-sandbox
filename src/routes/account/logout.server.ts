@@ -3,10 +3,10 @@ import type {
   HydrogenRequest,
 } from '@shopify/hydrogen';
 
-export async function api(
+export const api = async (
   request: HydrogenRequest,
   { session }: HydrogenApiRouteOptions,
-) {
+) => {
   if (request.method !== 'POST') {
     return new Response('Post required to logout', {
       status: 405,
@@ -25,4 +25,4 @@ export async function api(
   await session.set('customerAccessToken', '');
 
   return new Response();
-}
+};

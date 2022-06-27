@@ -1,14 +1,13 @@
-import { setDefaultAddress } from './[addressId].server';
 import {
   CacheNone,
   gql,
   type HydrogenApiRouteOptions,
   type HydrogenRequest,
 } from '@shopify/hydrogen';
-
 import { getApiErrorMessage } from '~/lib/utils';
+import { setDefaultAddress } from './[addressId].server';
 
-export interface Address {
+export type Address = {
   firstName?: string;
   lastName?: string;
   company?: string;
@@ -19,28 +18,47 @@ export interface Address {
   city?: string;
   zip?: string;
   phone?: string;
-}
+};
 
-export async function api(
+const CREATE_ADDRESS_MUTATION = gql`
+  mutation customerAddressCreate(
+    $address: MailingAddressInput!
+    $customerAccessToken: String!
+  ) {
+    customerAddressCreate(
+      address: $address
+      customerAccessToken: $customerAccessToken
+    ) {
+      customerAddress {
+        id
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const api = async (
   request: HydrogenRequest,
   { session, queryShop }: HydrogenApiRouteOptions,
-) {
-  if (request.method !== 'POST') {
+) => {
+  if (request.method !== 'POST')
     return new Response(null, {
       status: 405,
       headers: {
         Allow: 'POST',
       },
     });
-  }
 
-  if (!session) {
+  if (!session)
     return new Response('Session storage not available.', {
       status: 400,
     });
-  }
 
-  const { customerAccessToken } = await session.get();
+  const { customerAccessToken } = await session!.get();
 
   if (!customerAccessToken) return new Response(null, { status: 401 });
 
@@ -91,7 +109,7 @@ export async function api(
     const { data: defaultDataResponse, errors } = await setDefaultAddress(
       queryShop,
       data.customerAddressCreate.customerAddress.id,
-      customerAccessToken,
+      customerAccessToken as string,
     );
 
     const error = getApiErrorMessage(
@@ -104,25 +122,4 @@ export async function api(
   }
 
   return new Response(null);
-}
-
-const CREATE_ADDRESS_MUTATION = gql`
-  mutation customerAddressCreate(
-    $address: MailingAddressInput!
-    $customerAccessToken: String!
-  ) {
-    customerAddressCreate(
-      address: $address
-      customerAccessToken: $customerAccessToken
-    ) {
-      customerAddress {
-        id
-      }
-      customerUserErrors {
-        code
-        field
-        message
-      }
-    }
-  }
-`;
+};

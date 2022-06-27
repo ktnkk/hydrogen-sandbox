@@ -1,13 +1,43 @@
-import { useState } from 'react';
-import { useNavigate } from '@shopify/hydrogen/client';
+import { useNavigate } from '@shopify/hydrogen';
+import { FC, FormEvent, useState } from 'react';
 
-export function AccountActivateForm({
+type CallActivateApiProps = Record<
+  'id' | 'activationToken' | 'password',
+  string
+>;
+
+type AccountActivateFormProps = Record<'id' | 'activationToken', string>;
+
+const callActivateApi = async ({
   id,
   activationToken,
-}: {
-  id: string;
-  activationToken: string;
-}) {
+  password,
+}: CallActivateApiProps) => {
+  try {
+    const res = await fetch(`/account/activate`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id, activationToken, password }),
+    });
+    if (res.ok) {
+      return {};
+    } else {
+      return res.json();
+    }
+  } catch (error: any) {
+    return {
+      error: error.toString(),
+    };
+  }
+};
+
+export const AccountActivateForm: FC<AccountActivateFormProps> = ({
+  id,
+  activationToken,
+}) => {
   const navigate = useNavigate();
 
   const [submitError, setSubmitError] = useState<null | string>(null);
@@ -18,9 +48,9 @@ export function AccountActivateForm({
     null | string
   >(null);
 
-  function passwordValidation(
+  const passwordValidation = (
     form: HTMLFormElement & { password: HTMLInputElement },
-  ) {
+  ) => {
     setPasswordError(null);
     setPasswordConfirmError(null);
 
@@ -50,16 +80,14 @@ export function AccountActivateForm({
     }
 
     return hasError;
-  }
+  };
 
-  async function onSubmit(
-    event: React.FormEvent<HTMLFormElement & { password: HTMLInputElement }>,
-  ) {
+  const onSubmit = async (
+    event: FormEvent<HTMLFormElement & { password: HTMLInputElement }>,
+  ) => {
     event.preventDefault();
 
-    if (passwordValidation(event.currentTarget)) {
-      return;
-    }
+    if (passwordValidation(event.currentTarget)) return;
 
     const response = await callActivateApi({
       id,
@@ -73,16 +101,16 @@ export function AccountActivateForm({
     }
 
     navigate('/account');
-  }
+  };
 
   return (
     <div className='flex justify-center'>
       <div className='w-full max-w-md'>
         <h1 className='text-4xl'>Activate Account.</h1>
         <p className='mt-4'>Create your password to activate your account.</p>
-        <form noValidate className='pt-6 pb-8 mt-4 mb-4' onSubmit={onSubmit}>
+        <form noValidate className='pt-6 pb-8 my-4' onSubmit={onSubmit}>
           {submitError && (
-            <div className='flex items-center justify-center mb-6 bg-primary/30'>
+            <div className='flex justify-center items-center mb-6 bg-primary/30'>
               <p className='m-4 text-s text-contrast'>{submitError}</p>
             </div>
           )}
@@ -138,9 +166,9 @@ export function AccountActivateForm({
               {passwordConfirmError} &nbsp;
             </p>
           </div>
-          <div className='flex items-center justify-between'>
+          <div className='flex justify-between items-center'>
             <button
-              className='block w-full px-4 py-2 text-contrast uppercase bg-gray-900 focus:shadow-outline'
+              className='block py-2 px-4 w-full uppercase bg-gray-900 text-contrast focus:shadow-outline'
               type='submit'
             >
               Save
@@ -150,34 +178,4 @@ export function AccountActivateForm({
       </div>
     </div>
   );
-}
-
-async function callActivateApi({
-  id,
-  activationToken,
-  password,
-}: {
-  id: string;
-  activationToken: string;
-  password: string;
-}) {
-  try {
-    const res = await fetch(`/account/activate`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id, activationToken, password }),
-    });
-    if (res.ok) {
-      return {};
-    } else {
-      return res.json();
-    }
-  } catch (error: any) {
-    return {
-      error: error.toString(),
-    };
-  }
-}
+};

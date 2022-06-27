@@ -1,17 +1,47 @@
-import { useRef } from 'react';
-import { useScroll } from 'react-use';
 import { fetchSync } from '@shopify/hydrogen';
+import { FC, useRef } from 'react';
+import { Suspense } from 'react';
+import { useScroll } from 'react-use';
 import { Button, Text, ProductCard, Heading, Skeleton } from '~/components';
 import type { Product } from '@shopify/hydrogen/storefront-api-types';
-import { Suspense } from 'react';
 
-export function CartEmpty({
-  onClose,
-  layout = 'drawer',
-}: {
+type CartEmptyProps = {
   onClose?: () => void;
   layout?: 'page' | 'drawer';
-}) {
+};
+
+const TopProducts: FC<{ onClose?: () => void }> = ({ onClose }) => {
+  const products: Product[] = fetchSync('/api/bestSellers').json();
+
+  if (products.length === 0) return <Text format>No products found.</Text>;
+
+  return (
+    <>
+      {products.map((product) => (
+        <ProductCard product={product} key={product.id} onClick={onClose} />
+      ))}
+    </>
+  );
+};
+
+const Loading = () => {
+  return (
+    <>
+      {[...new Array(4)].map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <div key={i} className='grid gap-2'>
+          <Skeleton className='aspect-[3/4]' />
+          <Skeleton className='w-32 h-4' />
+        </div>
+      ))}
+    </>
+  );
+};
+
+export const CartEmpty: FC<CartEmptyProps> = ({
+  onClose,
+  layout = 'drawer',
+}) => {
   const scrollRef = useRef(null);
   const { y } = useScroll(scrollRef);
 
@@ -52,34 +82,4 @@ export function CartEmpty({
       </section>
     </div>
   );
-}
-
-function TopProducts({ onClose }: { onClose?: () => void }) {
-  const products: Product[] = fetchSync('/api/bestSellers').json();
-
-  if (products.length === 0) {
-    return <Text format>No products found.</Text>;
-  }
-
-  return (
-    <>
-      {products.map((product) => (
-        <ProductCard product={product} key={product.id} onClick={onClose} />
-      ))}
-    </>
-  );
-}
-
-function Loading() {
-  return (
-    <>
-      {[...new Array(4)].map((_, i) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <div key={i} className='grid gap-2'>
-          <Skeleton className='aspect-[3/4]' />
-          <Skeleton className='w-32 h-4' />
-        </div>
-      ))}
-    </>
-  );
-}
+};

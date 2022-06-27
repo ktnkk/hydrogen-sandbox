@@ -1,20 +1,18 @@
-import { MediaFile } from '@shopify/hydrogen/client';
-import type { MediaEdge } from '@shopify/hydrogen/storefront-api-types';
+import { MediaFile } from '@shopify/hydrogen';
 import { ATTR_LOADING_EAGER } from '~/lib/const';
+import type { MediaEdge } from '@shopify/hydrogen/storefront-api-types';
+import type { FC } from 'react';
 
-/**
- * A client component that defines a media gallery for hosting images, 3D models, and videos of products
- */
-export function ProductGallery({
-  media,
-  className,
-}: {
+type ProductGalleryProps = {
   media: MediaEdge['node'][];
   className?: string;
-}) {
-  if (!media.length) {
-    return null;
-  }
+};
+
+export const ProductGallery: FC<ProductGalleryProps> = ({
+  media,
+  className,
+}) => {
+  if (!media.length) return null;
 
   return (
     <div
@@ -66,9 +64,8 @@ export function ProductGallery({
             break;
         }
 
-        if (i === 0 && med.mediaContentType === 'IMAGE') {
+        if (i === 0 && med.mediaContentType === 'IMAGE')
           mediaProps.loading = ATTR_LOADING_EAGER;
-        }
 
         const style = [
           isFullWidth ? 'md:col-span-2' : 'md:col-span-1',
@@ -83,6 +80,7 @@ export function ProductGallery({
             key={med.id || med.image.id}
           >
             <MediaFile
+              // @ts-ignore
               tabIndex='0'
               className={`w-full h-full aspect-square fadeIn object-cover`}
               data={data}
@@ -103,4 +101,4 @@ export function ProductGallery({
       })}
     </div>
   );
-}
+};

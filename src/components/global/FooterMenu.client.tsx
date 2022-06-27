@@ -1,14 +1,11 @@
 // @ts-expect-error @headlessui/react incompatibility with node16 resolution
 import { Disclosure } from '@headlessui/react';
 import { Link } from '@shopify/hydrogen';
-
 import { Heading, IconCaret } from '~/components';
 import type { EnhancedMenu, EnhancedMenuItem } from '~/lib/utils';
+import type { FC } from 'react';
 
-/**
- * A server component that specifies the content of the footer on the website
- */
-export function FooterMenu({ menu }: { menu?: EnhancedMenu }) {
+export const FooterMenu: FC<{ menu?: EnhancedMenu }> = ({ menu }) => {
   const styles = {
     section: 'grid gap-4',
     nav: 'grid gap-2 pb-6',
@@ -40,15 +37,22 @@ export function FooterMenu({ menu }: { menu?: EnhancedMenu }) {
                   >
                     <Disclosure.Panel static>
                       <nav className={styles.nav}>
-                        {item.items.map((subItem) => (
-                          <Link
-                            key={subItem.id}
-                            to={subItem.to}
-                            target={subItem.target}
-                          >
-                            {subItem.title}
-                          </Link>
-                        ))}
+                        {item.items.map(
+                          (
+                            subItem: Pick<
+                              EnhancedMenuItem,
+                              'id' | 'to' | 'target' | 'title'
+                            >,
+                          ) => (
+                            <Link
+                              key={subItem.id}
+                              to={subItem.to}
+                              target={subItem.target}
+                            >
+                              {subItem.title}
+                            </Link>
+                          ),
+                        )}
                       </nav>
                     </Disclosure.Panel>
                   </div>
@@ -57,7 +61,7 @@ export function FooterMenu({ menu }: { menu?: EnhancedMenu }) {
             )}
           </Disclosure>
         </section>
-      ))}{' '}
+      ))}
     </>
   );
-}
+};

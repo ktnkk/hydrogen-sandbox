@@ -1,20 +1,20 @@
 import { Heading, Input, PageHeader } from '~/components';
 import { Layout } from '~/components/index.server';
+import type { FC, ReactNode } from 'react';
 
-export function SearchPage({
-  searchTerm,
-  children,
-}: {
+type SearchPageProps = {
   searchTerm?: string | null;
-  children: React.ReactNode;
-}) {
+  children: ReactNode;
+};
+
+export const SearchPage: FC<SearchPageProps> = ({ searchTerm, children }) => {
   return (
     <Layout>
       <PageHeader>
         <Heading as='h1' size='copy'>
           Search
         </Heading>
-        <form className='relative flex w-full text-heading'>
+        <form className='flex relative w-full text-heading'>
           <Input
             defaultValue={searchTerm}
             placeholder='Search…'
@@ -30,4 +30,4 @@ export function SearchPage({
       {children}
     </Layout>
   );
-}
+};

@@ -7,12 +7,44 @@ import {
   gql,
   type HydrogenRouteProps,
 } from '@shopify/hydrogen';
-import { Suspense } from 'react';
-
+import { FC, Suspense } from 'react';
 import { Button, PageHeader, Section } from '~/components';
 import { NotFound, Layout } from '~/components/index.server';
 
-export default function Policy({ params }: HydrogenRouteProps) {
+const POLICIES_QUERY = gql`
+  fragment Policy on ShopPolicy {
+    body
+    handle
+    id
+    title
+    url
+  }
+
+  query PoliciesQuery(
+    $languageCode: LanguageCode
+    $privacyPolicy: Boolean!
+    $shippingPolicy: Boolean!
+    $termsOfService: Boolean!
+    $refundPolicy: Boolean!
+  ) @inContext(language: $languageCode) {
+    shop {
+      privacyPolicy @include(if: $privacyPolicy) {
+        ...Policy
+      }
+      shippingPolicy @include(if: $shippingPolicy) {
+        ...Policy
+      }
+      termsOfService @include(if: $termsOfService) {
+        ...Policy
+      }
+      refundPolicy @include(if: $refundPolicy) {
+        ...Policy
+      }
+    }
+  }
+`;
+
+const Policy: FC<HydrogenRouteProps> = ({ params }) => {
   const {
     language: { isoCode: languageCode },
   } = useLocalization();
@@ -52,9 +84,7 @@ export default function Policy({ params }: HydrogenRouteProps) {
   const page = shop?.[activePolicy];
 
   // If the policy page is empty, return not found
-  if (!page) {
-    return <NotFound />;
-  }
+  if (!page) return <NotFound />;
 
   useServerAnalytics({
     shopify: {
@@ -71,21 +101,21 @@ export default function Policy({ params }: HydrogenRouteProps) {
       <Section
         padding='all'
         display='flex'
-        className='flex-col items-baseline w-full gap-8 md:flex-row'
+        className='flex-col gap-8 items-baseline w-full md:flex-row'
       >
         <PageHeader
           heading={page.title}
-          className='grid items-start flex-grow gap-4 md:sticky top-36 md:w-5/12'
+          className='grid top-36 grow gap-4 items-start md:sticky md:w-5/12'
         >
           <Button
             className='justify-self-start'
             variant='inline'
-            to={'/policies'}
+            to='/policies'
           >
             &larr; Back to Policies
           </Button>
         </PageHeader>
-        <div className='flex-grow w-full md:w-7/12'>
+        <div className='grow w-full md:w-7/12'>
           <div
             dangerouslySetInnerHTML={{ __html: page.body }}
             className='prose dark:prose-invert'
@@ -94,37 +124,6 @@ export default function Policy({ params }: HydrogenRouteProps) {
       </Section>
     </Layout>
   );
-}
+};
 
-const POLICIES_QUERY = gql`
-  fragment Policy on ShopPolicy {
-    body
-    handle
-    id
-    title
-    url
-  }
-
-  query PoliciesQuery(
-    $languageCode: LanguageCode
-    $privacyPolicy: Boolean!
-    $shippingPolicy: Boolean!
-    $termsOfService: Boolean!
-    $refundPolicy: Boolean!
-  ) @inContext(language: $languageCode) {
-    shop {
-      privacyPolicy @include(if: $privacyPolicy) {
-        ...Policy
-      }
-      shippingPolicy @include(if: $shippingPolicy) {
-        ...Policy
-      }
-      termsOfService @include(if: $termsOfService) {
-        ...Policy
-      }
-      refundPolicy @include(if: $refundPolicy) {
-        ...Policy
-      }
-    }
-  }
-`;
+export default Policy;

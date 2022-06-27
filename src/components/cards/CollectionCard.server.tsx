@@ -1,18 +1,17 @@
 import { Image, Link } from '@shopify/hydrogen';
-import type { Collection } from '@shopify/hydrogen/storefront-api-types';
-
 import { Heading } from '~/components';
+import type { Collection } from '@shopify/hydrogen/storefront-api-types';
+import type { FC } from 'react';
 
-export function CollectionCard({
-  collection,
-  loading,
-}: {
+type CollectionCard = {
   collection: Collection;
   loading?: HTMLImageElement['loading'];
-}) {
+};
+
+export const CollectionCard: FC<CollectionCard> = ({ collection, loading }) => {
   return (
     <Link to={`/collections/${collection.handle}`} className='grid gap-4'>
-      <div className='card-image bg-primary/5 aspect-[3/2]'>
+      <div className='aspect-[3/2] card-image bg-primary/5'>
         {collection?.image && (
           <Image
             alt={`Image of ${collection.title}`}
@@ -33,4 +32,4 @@ export function CollectionCard({
       </Heading>
     </Link>
   );
-}
+};

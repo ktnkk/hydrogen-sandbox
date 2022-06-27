@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import {
   CacheNone,
   Seo,
@@ -7,12 +6,27 @@ import {
   type HydrogenApiRouteOptions,
   type HydrogenRouteProps,
 } from '@shopify/hydrogen';
-
+import { FC, Suspense } from 'react';
 import { AccountCreateForm } from '~/components';
 import { Layout } from '~/components/index.server';
 import { getApiErrorMessage } from '~/lib/utils';
 
-export default function Register({ response }: HydrogenRouteProps) {
+const CUSTOMER_CREATE_MUTATION = gql`
+  mutation customerCreate($input: CustomerCreateInput!) {
+    customerCreate(input: $input) {
+      customer {
+        id
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
+
+const Register: FC<HydrogenRouteProps> = ({ response }) => {
   response.cache(CacheNone());
 
   return (
@@ -23,12 +37,12 @@ export default function Register({ response }: HydrogenRouteProps) {
       <AccountCreateForm />
     </Layout>
   );
-}
+};
 
-export async function api(
+export const api = async (
   request: HydrogenRequest,
   { queryShop }: HydrogenApiRouteOptions,
-) {
+) => {
   const jsonBody = await request.json();
 
   if (
@@ -77,19 +91,6 @@ export async function api(
       { status: 401 },
     );
   }
-}
+};
 
-const CUSTOMER_CREATE_MUTATION = gql`
-  mutation customerCreate($input: CustomerCreateInput!) {
-    customerCreate(input: $input) {
-      customer {
-        id
-      }
-      customerUserErrors {
-        code
-        field
-        message
-      }
-    }
-  }
-`;
+export default Register;

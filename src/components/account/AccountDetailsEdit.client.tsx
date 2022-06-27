@@ -1,5 +1,4 @@
-import { useState } from 'react';
-
+import { FC, FormEvent, useState } from 'react';
 import { Text, Button } from '~/components';
 import {
   emailValidation,
@@ -7,29 +6,99 @@ import {
   useRenderServerComponents,
 } from '~/lib/utils';
 
-interface FormElements {
-  firstName: HTMLInputElement;
-  lastName: HTMLInputElement;
-  phone: HTMLInputElement;
-  email: HTMLInputElement;
-  currentPassword: HTMLInputElement;
-  newPassword: HTMLInputElement;
-  newPassword2: HTMLInputElement;
-}
+type CallAccountUpdateApiProps = Record<
+  | 'email'
+  | 'phone'
+  | 'firstName'
+  | 'lastName'
+  | 'currentPassword'
+  | 'newPassword',
+  string
+>;
 
-export function AccountDetailsEdit({
-  firstName: _firstName = '',
-  lastName: _lastName = '',
-  phone: _phone = '',
-  email: _email = '',
-  close,
-}: {
+type PasswordProps = {
+  name: string;
+  passwordError: string | null;
+  label: string;
+};
+
+type AccountDetailsEditProps = {
   firstName?: string;
   lastName?: string;
   phone?: string;
   email?: string;
   close: () => void;
-}) {
+};
+
+export const callAccountUpdateApi = async ({
+  email,
+  phone,
+  firstName,
+  lastName,
+  currentPassword,
+  newPassword,
+}: CallAccountUpdateApiProps) => {
+  try {
+    const res = await fetch(`/account`, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        phone,
+        firstName,
+        lastName,
+        currentPassword,
+        newPassword,
+      }),
+    });
+    if (res.ok) {
+      return {};
+    } else {
+      return res.json();
+    }
+  } catch (_e) {
+    return {
+      error: 'Error saving account. Please try again.',
+    };
+  }
+};
+
+const Password: FC<PasswordProps> = ({ name, passwordError, label }) => {
+  const [password, setPassword] = useState('');
+
+  return (
+    <div className='mt-3'>
+      <input
+        className={`appearance-none border w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline rounded ${
+          passwordError ? ' border-red-500' : 'border-gray-500'
+        }`}
+        id={name}
+        name={name}
+        type='password'
+        autoComplete={
+          name === 'currentPassword' ? 'current-password' : undefined
+        }
+        placeholder={label}
+        aria-label={label}
+        value={password}
+        minLength={8}
+        required
+        onChange={(event) => setPassword(event.target.value)}
+      />
+    </div>
+  );
+};
+
+export const AccountDetailsEdit: FC<AccountDetailsEditProps> = ({
+  firstName: _firstName = '',
+  lastName: _lastName = '',
+  phone: _phone = '',
+  email: _email = '',
+  close,
+}) => {
   const [saving, setSaving] = useState(false);
   const [firstName, setFirstName] = useState(_firstName);
   const [lastName, setLastName] = useState(_lastName);
@@ -45,12 +114,23 @@ export function AccountDetailsEdit({
   );
   const [submitError, setSubmitError] = useState<null | string>(null);
 
-  // Necessary for edits to show up on the main page
   const renderServerComponents = useRenderServerComponents();
 
-  async function onSubmit(
-    event: React.FormEvent<HTMLFormElement & FormElements>,
-  ) {
+  const onSubmit = async (
+    event: FormEvent<
+      HTMLFormElement &
+        Record<
+          | 'firstName'
+          | 'lastName'
+          | 'phone'
+          | 'email'
+          | 'currentPassword'
+          | 'newPassword'
+          | 'newPassword2',
+          HTMLInputElement
+        >
+    >,
+  ) => {
     event.preventDefault();
 
     setEmailError(null);
@@ -59,34 +139,25 @@ export function AccountDetailsEdit({
     setNewPassword2Error(null);
 
     const emailError = emailValidation(event.currentTarget.email);
-    if (emailError) {
-      setEmailError(emailError);
-    }
+    if (emailError) setEmailError(emailError);
 
     let currentPasswordError, newPasswordError, newPassword2Error;
 
-    // Only validate the password fields if the current password has a value
     if (event.currentTarget.currentPassword.value) {
       currentPasswordError = passwordValidation(
         event.currentTarget.currentPassword,
       );
-      if (currentPasswordError) {
-        setCurrentPasswordError(currentPasswordError);
-      }
+      if (currentPasswordError) setCurrentPasswordError(currentPasswordError);
 
       newPasswordError = passwordValidation(event.currentTarget.newPassword);
-      if (newPasswordError) {
-        setNewPasswordError(newPasswordError);
-      }
+      if (newPasswordError) setNewPasswordError(newPasswordError);
 
       newPassword2Error =
         event.currentTarget.newPassword.value !==
         event.currentTarget.newPassword2.value
           ? 'The two passwords entered did not match'
           : null;
-      if (newPassword2Error) {
-        setNewPassword2Error(newPassword2Error);
-      }
+      if (newPassword2Error) setNewPassword2Error(newPassword2Error);
     }
 
     if (
@@ -118,7 +189,7 @@ export function AccountDetailsEdit({
 
     renderServerComponents();
     close();
-  }
+  };
 
   return (
     <>
@@ -127,7 +198,7 @@ export function AccountDetailsEdit({
       </Text>
       <form noValidate onSubmit={onSubmit}>
         {submitError && (
-          <div className='flex items-center justify-center mb-6 bg-red-100 rounded'>
+          <div className='flex justify-center items-center mb-6 bg-red-100 rounded'>
             <p className='m-4 text-sm text-red-900'>{submitError}</p>
           </div>
         )}
@@ -141,9 +212,7 @@ export function AccountDetailsEdit({
             placeholder='First name'
             aria-label='First name'
             value={firstName}
-            onChange={(event) => {
-              setFirstName(event.target.value);
-            }}
+            onChange={(event) => setFirstName(event.target.value)}
           />
         </div>
         <div className='mt-3'>
@@ -156,9 +225,7 @@ export function AccountDetailsEdit({
             placeholder='Last name'
             aria-label='Last name'
             value={lastName}
-            onChange={(event) => {
-              setLastName(event.target.value);
-            }}
+            onChange={(event) => setLastName(event.target.value)}
           />
         </div>
         <div className='mt-3'>
@@ -171,9 +238,7 @@ export function AccountDetailsEdit({
             placeholder='Mobile'
             aria-label='Mobile'
             value={phone}
-            onChange={(event) => {
-              setPhone(event.target.value);
-            }}
+            onChange={(event) => setPhone(event.target.value)}
           />
         </div>
         <div className='mt-3'>
@@ -189,9 +254,7 @@ export function AccountDetailsEdit({
             placeholder='Email address'
             aria-label='Email address'
             value={email}
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
+            onChange={(event) => setEmail(event.target.value)}
           />
           <p
             className={`text-red-500 text-xs ${!emailError ? 'invisible' : ''}`}
@@ -199,7 +262,7 @@ export function AccountDetailsEdit({
             {emailError} &nbsp;
           </p>
         </div>
-        <Text className='mb-6 mt-6' as='h3' size='lead'>
+        <Text className='my-6' as='h3' size='lead'>
           Change your password
         </Text>
         <Password
@@ -237,7 +300,7 @@ export function AccountDetailsEdit({
         </Text>
         <div className='mt-6'>
           <Button
-            className='text-sm mb-2'
+            className='mb-2 text-sm'
             variant='primary'
             width='full'
             type='submit'
@@ -260,83 +323,4 @@ export function AccountDetailsEdit({
       </form>
     </>
   );
-}
-
-function Password({
-  name,
-  passwordError,
-  label,
-}: {
-  name: string;
-  passwordError: string | null;
-  label: string;
-}) {
-  const [password, setPassword] = useState('');
-
-  return (
-    <div className='mt-3'>
-      <input
-        className={`appearance-none border w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline rounded ${
-          passwordError ? ' border-red-500' : 'border-gray-500'
-        }`}
-        id={name}
-        name={name}
-        type='password'
-        autoComplete={
-          name === 'currentPassword' ? 'current-password' : undefined
-        }
-        placeholder={label}
-        aria-label={label}
-        value={password}
-        minLength={8}
-        required
-        onChange={(event) => {
-          setPassword(event.target.value);
-        }}
-      />
-    </div>
-  );
-}
-
-export async function callAccountUpdateApi({
-  email,
-  phone,
-  firstName,
-  lastName,
-  currentPassword,
-  newPassword,
-}: {
-  email: string;
-  phone: string;
-  firstName: string;
-  lastName: string;
-  currentPassword: string;
-  newPassword: string;
-}) {
-  try {
-    const res = await fetch(`/account`, {
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        phone,
-        firstName,
-        lastName,
-        currentPassword,
-        newPassword,
-      }),
-    });
-    if (res.ok) {
-      return {};
-    } else {
-      return res.json();
-    }
-  } catch (_e) {
-    return {
-      error: 'Error saving account. Please try again.',
-    };
-  }
-}
+};
