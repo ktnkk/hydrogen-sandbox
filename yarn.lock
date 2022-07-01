@@ -1218,7 +1218,7 @@
     prettier "^2.6.1"
     vite "^2.9.9"
 
-"@shopify/cli-kit@^3.0.0", "@shopify/cli-kit@^3.0.24", "@shopify/cli-kit@^3.0.25":
+"@shopify/cli-kit@^3.0.0", "@shopify/cli-kit@^3.0.25":
   version "3.0.25"
   resolved "https://registry.yarnpkg.com/@shopify/cli-kit/-/cli-kit-3.0.25.tgz#ae319efd32f8724cc91d157dbfda659ee206d1db"
   integrity sha512-n1FQP78+9oCl5hIn45ZPgHYskcYVMLYqVCM2tzZ4OerqNK+JwRMPj0hoHSwgK0yj3Ppm4eaRyMw3tUVy4VGxFw==
@@ -1267,16 +1267,16 @@
     ts-error "^1.0.6"
     zod "^3.17.3"
 
-"@shopify/cli@3.0.24":
-  version "3.0.24"
-  resolved "https://registry.yarnpkg.com/@shopify/cli/-/cli-3.0.24.tgz#c2008c2511e911b951f3505f2fd80a0bc716dc46"
-  integrity sha512-1MrHLPde+J+yBtiQCP63KCFQHM2CuvL1ceIGJACUyZGAGgOFILUieWCndPyf4I8afnhnDyknVv7uwSsl+LPqUQ==
+"@shopify/cli@3.0.25":
+  version "3.0.25"
+  resolved "https://registry.yarnpkg.com/@shopify/cli/-/cli-3.0.25.tgz#ee980cd17611be94df39490b170f67703c15f9b1"
+  integrity sha512-UQj7XDSE0AVv1vcwy2czVwscSup0+nnM8sY7T9Iesi+iSjgY0f26iMslWBF7xTWup1KLDd8WkstcP0gsrzLsxA==
   dependencies:
     "@bugsnag/js" "^7.16.7"
     "@oclif/core" "^1.0"
     "@oclif/plugin-help" "^5.1.12"
     "@oclif/plugin-plugins" "^2.1.0"
-    "@shopify/cli-kit" "^3.0.24"
+    "@shopify/cli-kit" "^3.0.25"
     "@shopify/plugin-ngrok" "^0.2.9"
 
 "@shopify/hydrogen@^0.26.0":
