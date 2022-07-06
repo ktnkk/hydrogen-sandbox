@@ -5040,9 +5040,9 @@ fast-json-stable-stringify@^2.0.0:
   integrity sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==
 
 fast-json-stringify@^5.0.0:
-  version "5.0.5"
-  resolved "https://registry.yarnpkg.com/fast-json-stringify/-/fast-json-stringify-5.0.5.tgz#9bcec65128303274600d95f74e4814e360346e68"
-  integrity sha512-NGXE7I6dBcSTM1pprcLEIQ6nHp424mDn8ABleM17Sp7XkyPLlbIDed41/VhUiqnLICX7XiOoFsNHx/nnJ8qhig==
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/fast-json-stringify/-/fast-json-stringify-5.0.6.tgz#b996e3a7c1ceb534f1ef20526bc46841b8f156aa"
+  integrity sha512-iZM2VJ19wBOjznp9AQ3PEXTAvwcwJXDsz5xEoTs+31s/lCyOYrqHicXHzt0VoLz16pZStsWx3HIvRFB6AQaWeA==
   dependencies:
     ajv "^8.10.0"
     ajv-formats "^2.1.1"
