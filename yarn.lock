@@ -9509,11 +9509,11 @@ postcss-custom-selectors@^6.0.3:
     postcss-selector-parser "^6.0.4"
 
 postcss-dir-pseudo-class@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/postcss-dir-pseudo-class/-/postcss-dir-pseudo-class-6.0.4.tgz#9afe49ea631f0cb36fa0076e7c2feb4e7e3f049c"
-  integrity sha512-I8epwGy5ftdzNWEYok9VjW9whC4xnelAtbajGv4adql4FIF09rnrxnA9Y8xSHN47y7gqFIv10C5+ImsLeJpKBw==
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/postcss-dir-pseudo-class/-/postcss-dir-pseudo-class-6.0.5.tgz#2bf31de5de76added44e0a25ecf60ae9f7c7c26c"
+  integrity sha512-eqn4m70P031PF7ZQIvSgy9RSJ5uI2171O/OO/zcRNYpJbvaeKFUlar1aJ7rmgiQtbm0FSPsRewjpdS0Oew7MPA==
   dependencies:
-    postcss-selector-parser "^6.0.9"
+    postcss-selector-parser "^6.0.10"
 
 postcss-double-position-gradients@^3.1.1:
   version "3.1.2"
