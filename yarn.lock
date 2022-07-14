@@ -1227,10 +1227,10 @@
     typescript "^4.7.4"
     vite "^2.9.9"
 
-"@shopify/cli-kit@^3.0.0", "@shopify/cli-kit@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@shopify/cli-kit/-/cli-kit-3.1.0.tgz#552b71fa846b69db9a11ef12af20a028ec9c00c4"
-  integrity sha512-0ri1GhZ/4diONToKvqsL/TP/VkH6B+D44QDRlpUn/q2hU45g1bJjiBAa16A6F4JkWoB290QVVPkv7giAXUrELQ==
+"@shopify/cli-kit@3.2.0", "@shopify/cli-kit@^3.0.0", "@shopify/cli-kit@^3.1.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@shopify/cli-kit/-/cli-kit-3.2.0.tgz#549af32bf85c61c242313bbec1c9fa5742a2d1f9"
+  integrity sha512-JLnmIQOXEz1TG6RRzKBllJfW/soyGAo1FPhxGWiIWrE/9p4ns8nEVr0vzkGkH9mFdNUb4hdR6GS99IXRQPOFZQ==
   dependencies:
     "@bugsnag/js" "^7.16.7"
     "@iarna/toml" "^2.2.5"
@@ -1281,15 +1281,15 @@
     unique-string "^3.0.0"
     zod "^3.17.3"
 
-"@shopify/cli@3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@shopify/cli/-/cli-3.1.0.tgz#4849961ca5b14dd1f8ecc2cd34b597b3d200c0fd"
-  integrity sha512-wxfowS87aWwtcfBCztcIq4eJ11/DsKjtf6+xi+c8CkRdm0MrqYzS0YHZVBn++JYLyEzVvwg9ZZAGuSdf2utb+g==
+"@shopify/cli@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@shopify/cli/-/cli-3.2.0.tgz#e4921eb38fd1abcdfa4e19ea054ba44bd5befed8"
+  integrity sha512-tCoCN8mQQ66BtPqH7L7r4PCNOLZGwMfQUbMdtYqhTcXiZH6TwzP7KMsG7WcFaOgt+rcUYWFCyb/xJqhfqCEFIQ==
   dependencies:
     "@oclif/core" "^1.0"
     "@oclif/plugin-help" "^5.1.12"
     "@oclif/plugin-plugins" "^2.1.0"
-    "@shopify/cli-kit" "^3.1.0"
+    "@shopify/cli-kit" "3.2.0"
     "@shopify/plugin-ngrok" "^0.2.9"
 
 "@shopify/hydrogen@^0.26.0":
