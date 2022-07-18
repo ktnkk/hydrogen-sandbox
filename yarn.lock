@@ -1210,13 +1210,13 @@
     lodash "^4.17.4"
     read-pkg-up "^7.0.0"
 
-"@shopify/cli-hydrogen@3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@shopify/cli-hydrogen/-/cli-hydrogen-3.2.0.tgz#7d6732315618669f8b1a8e353db746d3338cefd2"
-  integrity sha512-Ed53p76j2eoN3Ckxzi9CtRc7D9R2iEb2NZf4a3jsw2yS6F6YLI0wy8vCEgivd9jv/TGcZZ8PQ93e9lx4UyXlzA==
+"@shopify/cli-hydrogen@3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@shopify/cli-hydrogen/-/cli-hydrogen-3.3.0.tgz#4c12424405a39af4d84281b1240759b55f158947"
+  integrity sha512-iIAIrPDtYz0YVlPyGlVDYHc1O/WRbhzlTZCB2H0lo4RwTdsQS30A3+jm7bKXNFqrILoNl1X5zi4zbnTKUz+wsw==
   dependencies:
     "@oclif/core" "^1.0.0"
-    "@shopify/cli-kit" "3.2.0"
+    "@shopify/cli-kit" "3.3.0"
     "@shopify/hydrogen" "^0.26.0"
     "@shopify/mini-oxygen" "^0.1.0"
     "@shopify/prettier-config" "^1.1.2"
@@ -1227,7 +1227,7 @@
     typescript "^4.7.4"
     vite "^2.9.9"
 
-"@shopify/cli-kit@3.2.0", "@shopify/cli-kit@^3.0.0":
+"@shopify/cli-kit@3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@shopify/cli-kit/-/cli-kit-3.2.0.tgz#549af32bf85c61c242313bbec1c9fa5742a2d1f9"
   integrity sha512-JLnmIQOXEz1TG6RRzKBllJfW/soyGAo1FPhxGWiIWrE/9p4ns8nEVr0vzkGkH9mFdNUb4hdR6GS99IXRQPOFZQ==
@@ -1249,6 +1249,60 @@
     execa "^6.0.0"
     fast-glob "^3.2.11"
     fastify "^4.0.0-rc.4"
+    find-up "^6.2.0"
+    find-versions "^5.0.0"
+    form-data "^4.0.0"
+    fs-extra "^10.0.0"
+    get-port-please "^2.5.0"
+    graphql "^16.4.0"
+    graphql-request "^4.3.0"
+    haikunator "^2.1.2"
+    inquirer "^8.2.4"
+    is-interactive "^2.0.0"
+    js-yaml "^4.1.0"
+    keytar "^7.9.0"
+    latest-version "^6.0.0"
+    liquidjs "^9.36.0"
+    listr2 "^4.0.5"
+    md5-file "^5.0.0"
+    node-fetch "^3.2.4"
+    open "^8.4.0"
+    pathe "0.2.0"
+    prettier "^2.6.2"
+    semver "^7.3.6"
+    simple-git "^3.5.0"
+    source-map-support "^0.5.21"
+    stacktracey "^2.1.8"
+    strip-ansi "^7.0.1"
+    tempy "^3.0.0"
+    term-size "^3.0.1"
+    terminal-link "^3.0.0"
+    ts-error "^1.0.6"
+    unique-string "^3.0.0"
+    zod "^3.17.3"
+
+"@shopify/cli-kit@3.3.0", "@shopify/cli-kit@^3.0.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@shopify/cli-kit/-/cli-kit-3.3.0.tgz#3787bfe9f911216c59efab588a6c15d4d99e93f3"
+  integrity sha512-XfBGjolHtSYQ8aeQb0eoF3fY63klpCrHdmCMzouwRMtA4vRaBn+q3ahN/cwbIOtGMu8mVC+YRtwCrc1jEBwJ8g==
+  dependencies:
+    "@bugsnag/js" "^7.16.7"
+    "@iarna/toml" "^2.2.5"
+    "@oclif/core" "^1.0"
+    abort-controller "^3.0.0"
+    ansi-colors "^4.1.1"
+    change-case "^4.1.2"
+    color-json "^2.0.1"
+    commondir "^1.0.1"
+    conf "^10.1.2"
+    cross-zip "^4.0.0"
+    del "^6.0.0"
+    enquirer "^2.3.6"
+    env-paths "^3.0.0"
+    envfile "^6.17.0"
+    execa "^6.0.0"
+    fast-glob "^3.2.11"
+    fastify "^4.2.1"
     find-up "^6.2.0"
     find-versions "^5.0.0"
     form-data "^4.0.0"
@@ -5127,7 +5181,7 @@ fastest-stable-stringify@^2.0.2:
   resolved "https://registry.yarnpkg.com/fastest-stable-stringify/-/fastest-stable-stringify-2.0.2.tgz#3757a6774f6ec8de40c4e86ec28ea02417214c76"
   integrity sha512-bijHueCGd0LqqNK9b5oCMHc0MluJAx0cwqASgbWMvkO01lCYgIhacVRLcaDz3QnyYIRNJRDwMb41VuT6pHJ91Q==
 
-fastify@^4.0.0-rc.4:
+fastify@^4.0.0-rc.4, fastify@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.2.1.tgz#44bc04dde3f769527851950da46c8ee32227233c"
   integrity sha512-eyAWHN9+8IPTnhvGz+leseASGV/JZ75Y+jXXV7tid4awUjCMInY1gazZXuTD95xUW+Ve5vfgLjQ2i1i0/XJjdw==
