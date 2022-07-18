@@ -1836,7 +1836,7 @@ ajv@^6.10.0, ajv@^6.12.3, ajv@^6.12.4:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ajv@^8.0.0, ajv@^8.1.0, ajv@^8.10.0, ajv@^8.11.0, ajv@^8.6.3:
+ajv@^8.0.0, ajv@^8.10.0, ajv@^8.11.0, ajv@^8.6.3:
   version "8.11.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.11.0.tgz#977e91dd96ca669f54a11e23e378e33b884a565f"
   integrity sha512-wGgprdCvMalC0BztXvitD2hC04YffAvtsUn93JbGXYLAtCUO4xd17mCCZQxUOItiBwZvJScWo8NIvQMQ71rdpg==
@@ -7310,13 +7310,12 @@ libnpx@^10.2.4:
     yargs "^14.2.3"
 
 light-my-request@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/light-my-request/-/light-my-request-5.0.0.tgz#2ac329d472c5c74c74be62fb2a8790c444c22ab0"
-  integrity sha512-0OPHKV+uHgBOnRokzL1LqeMCnSAo5l/rZS7kyB6G1I8qxGCvhXpq1M6WK565Y9A5CSn50l3DVaHnJ5FCdpguZQ==
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/light-my-request/-/light-my-request-5.1.0.tgz#00e4a648817d9041537f5df9e1637c7113015c20"
+  integrity sha512-pPQiXZaFGxVJccAC7zigUwyso5iCHz/sk17IKdcB6GUv6sXlxT7lOJFzosPhNs5/TyEXjITIEDfCyM3hHC34iQ==
   dependencies:
-    ajv "^8.1.0"
     cookie "^0.5.0"
-    process-warning "^1.0.0"
+    process-warning "^2.0.0"
     set-cookie-parser "^2.4.1"
 
 lilconfig@2.0.5, lilconfig@^2.0.5:
@@ -9799,11 +9798,6 @@ process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
-
-process-warning@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/process-warning/-/process-warning-1.0.0.tgz#980a0b25dc38cd6034181be4b7726d89066b4616"
-  integrity sha512-du4wfLyj4yCZq1VupnVSZmRsPJsNuxoDQFdCFHLaYiEbFBD7QE0a+I4D7hOxrVnh78QE/YipFAj9lXHiXocV+Q==
 
 process-warning@^2.0.0:
   version "2.0.0"
