@@ -7348,9 +7348,9 @@ lint-staged@^13.0.3:
     yaml "^2.1.1"
 
 liquidjs@^9.36.0:
-  version "9.39.0"
-  resolved "https://registry.yarnpkg.com/liquidjs/-/liquidjs-9.39.0.tgz#0ee685118d397354556c35f558c3e5d3ecddc12c"
-  integrity sha512-WmsBwFlvhHrMtrlSjVR58kAYjZT/0QVO5sqw4zs9mpGQdf3xTon388WbWwOwyCoTtKzXwedbvWtq2M2wnozr0g==
+  version "9.39.1"
+  resolved "https://registry.yarnpkg.com/liquidjs/-/liquidjs-9.39.1.tgz#850039c7c95ad5fa5ff66aa3dddfd6d2fad93128"
+  integrity sha512-TFu19Cml0K2T34UY50ZKUApHgiiEaayqNW9J3o3ubLQCuhMFhY7jqwNpY1oVvvAJxCCxVqL6bJnGc1Fktth0Fw==
 
 listr2@^4.0.5:
   version "4.0.5"
