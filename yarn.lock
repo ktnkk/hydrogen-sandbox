@@ -7310,9 +7310,9 @@ libnpx@^10.2.4:
     yargs "^14.2.3"
 
 light-my-request@^5.0.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/light-my-request/-/light-my-request-5.1.0.tgz#00e4a648817d9041537f5df9e1637c7113015c20"
-  integrity sha512-pPQiXZaFGxVJccAC7zigUwyso5iCHz/sk17IKdcB6GUv6sXlxT7lOJFzosPhNs5/TyEXjITIEDfCyM3hHC34iQ==
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/light-my-request/-/light-my-request-5.2.0.tgz#b3927b63ae570726fcef755145b4ac0f6eb8c359"
+  integrity sha512-U5Dga8U59VKydIAnHt2XvPVyDfaHsDIpoO+/FPrm4Qnn1tHeczNnLrGjI1bko6BFWgFwTXjTiQN6PkohWiwwcA==
   dependencies:
     cookie "^0.5.0"
     process-warning "^2.0.0"
