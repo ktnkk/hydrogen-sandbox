@@ -1210,13 +1210,13 @@
     lodash "^4.17.4"
     read-pkg-up "^7.0.0"
 
-"@shopify/cli-hydrogen@3.3.1":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@shopify/cli-hydrogen/-/cli-hydrogen-3.3.1.tgz#7c746c3a17a6036247d7222576321dacead2e3eb"
-  integrity sha512-6kyU4KlX/0zFKjUzg4YCxvKL7gO7vgKYzFuEnMJJvRNhKwysT8sTwC4VVPtl6ITaHHqhgBoXMPl9O32eUtzE9A==
+"@shopify/cli-hydrogen@3.3.2":
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/@shopify/cli-hydrogen/-/cli-hydrogen-3.3.2.tgz#33ff0be076accd5e62bc231938ad33c7af397b43"
+  integrity sha512-y4tNp0OwgWhuM0HcD1PhU3Rr2t9FuPkudY0YEM4ZeZ66uFIPbSchoXfaBRH/74U84VUuau8iEueQHZ5CznVvbA==
   dependencies:
     "@oclif/core" "^1.0.0"
-    "@shopify/cli-kit" "3.3.1"
+    "@shopify/cli-kit" "3.3.2"
     "@shopify/hydrogen" "^0.26.0"
     "@shopify/mini-oxygen" "^0.1.0"
     "@shopify/prettier-config" "^1.1.2"
@@ -1281,10 +1281,10 @@
     unique-string "^3.0.0"
     zod "^3.17.3"
 
-"@shopify/cli-kit@3.3.1", "@shopify/cli-kit@^3.0.0":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@shopify/cli-kit/-/cli-kit-3.3.1.tgz#41cd3cf368d4fc7aa157b69c6922928961734d10"
-  integrity sha512-TY8DiMjpQAYcUHEdbNz7hP0Nuce9MLTchnjtWltdabKLSpbw4mmHrd8gJMwGcxbBBQGV7H8eO5wDGNqaH3ijyA==
+"@shopify/cli-kit@3.3.2", "@shopify/cli-kit@^3.0.0":
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/@shopify/cli-kit/-/cli-kit-3.3.2.tgz#9dbe8c1ea34ba0414437983948a93f723a359afe"
+  integrity sha512-H9iNj8Vk1IfU4Mcsnlj2qa52A0sAu57oKqC4vgEnVl0cTKApvCwZE3Ej84OoOxsqpLXxwvFSoZ5n+g1uQ9nVmg==
   dependencies:
     "@bugsnag/js" "^7.16.7"
     "@iarna/toml" "^2.2.5"
